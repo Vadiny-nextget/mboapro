@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "explore": "Explore services",
+    "becomeProvider": "Become a provider",
+    "howItWorks": "How it works",
+    "login": "Login",
+    "register": "Sign up",
+    "mySpace": "My space"
+  },
+  "home": {
+    "heroTitle": "Find the right professional, with confidence",
+    "heroSubtitle": "Plumbers, electricians, home hairdressers, coaches, translators, freelance accountants — all verified by MboaPro.",
+    "searchPlaceholder": "E.g. plumber in Douala...",
+    "search": "Search",
+    "featuredProviders": "Featured providers",
+    "seeAll": "See all",
+    "ctaTitle": "Are you a professional?",
+    "ctaSubtitle": "Join MboaPro and offer your services to thousands of clients in Cameroon.",
+    "ctaButton": "Become a provider"
+  },
+  "common": {
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "verified": "Verified",
+    "startingFrom": "starting from",
+    "reviews": "reviews"
+  },
+  "errors": {
+    "boundaryTitle": "Something went wrong",
+    "boundaryMessage": "An unexpected error occurred. You can try again or go back home.",
+    "retry": "Try again",
+    "backHome": "Back to home",
+    "details": "Technical details"
+  }
+}

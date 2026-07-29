@@ -1,0 +1,124 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+// =====================================================
+// MboaPro — Loaders
+// =====================================================
+
+// ---- Skeleton shimmer (cartes prestataires en chargement) ----------
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--shimmer-base);
+  border-radius: var(--radius-md);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      var(--shimmer-highlight),
+      transparent
+    );
+    background-size: 800px 100%;
+    animation: shimmer v.$duration-shimmer infinite linear;
+  }
+}
+
+.skeleton-text {
+  @extend .skeleton;
+  height: 0.85em;
+  margin-bottom: 0.5em;
+  border-radius: v.$radius-sm;
+
+  &--w-75 { width: 75%; }
+  &--w-50 { width: 50%; }
+  &--w-25 { width: 25%; }
+}
+
+.skeleton-avatar {
+  @extend .skeleton;
+  width: 48px;
+  height: 48px;
+  border-radius: v.$radius-full;
+}
+
+.skeleton-card {
+  @extend .skeleton;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: v.$radius-lg;
+}
+
+// ---- Spinner (validation, boutons async) --------------------------
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--border-subtle);
+  border-top-color: var(--color-primary-500);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+
+  &--lg {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+
+  &--on-primary {
+    border-color: rgba(255, 255, 255, 0.35);
+    border-top-color: var(--text-on-primary);
+  }
+}
+
+// ---- Dots loader (chat, réponse prestataire en cours) --------------
+.dots-loader {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+
+  span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-primary-500);
+    animation: bounce-soft 1s ease-in-out infinite;
+
+    &:nth-child(2) { animation-delay: 0.15s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+  }
+}
+
+// ---- Barre de progression (upload de portfolio, onboarding) --------
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--bg-surface-alt);
+  border-radius: v.$radius-full;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-500),
+      var(--color-accent-500)
+    );
+    border-radius: inherit;
+    @include m.transition(width, v.$duration-slow, v.$ease-out);
+  }
+}
+
+// ---- Overlay plein écran (chargement page/route) -------------------
+.page-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: v.z(modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-page);
+  animation: fade-in v.$duration-fast v.$ease-out both;
+}

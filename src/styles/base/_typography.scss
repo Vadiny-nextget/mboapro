@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as v;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: v.$fs-4xl; }
+h2 { font-size: v.$fs-3xl; }
+h3 { font-size: v.$fs-2xl; }
+h4 { font-size: v.$fs-xl; }
+h5 { font-size: v.$fs-lg; }
+h6 { font-size: v.$fs-md; }
+
+p {
+  // color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+small, .text-caption {
+  font-size: v.$fs-sm;
+  color: var(--text-muted);
+}
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+}

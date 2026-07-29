@@ -1,0 +1,27 @@
+// =====================================================
+// MboaPro — Polices
+// Sora  : titres (moderne, géométrique, bonne présence en gros corps)
+// Inter : texte courant (très lisible, standard SaaS/marketplace)
+// =====================================================
+
+// Option A — via Google Fonts CDN (rapide à mettre en place)
+// À placer idéalement dans index.html en <link rel="preconnect">
+// pour éviter le blocage de rendu, sinon décommenter ci-dessous :
+//
+// @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+// Option B — self-hosted (recommandé en prod : perf + confidentialité)
+// Place les fichiers .woff2 dans /public/fonts puis :
+@font-face {
+  font-family: 'Sora';
+  src: url('/fonts/Sora-Variable.woff2') format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}

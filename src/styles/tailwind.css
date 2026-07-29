@@ -1,0 +1,79 @@
+/* =====================================================
+   MboaPro — Tailwind v4 entry point
+   Fichier volontairement séparé de main.scss : Tailwind v4
+   analyse littéralement @import "tailwindcss" + @theme, ce qui
+   entre en conflit avec le résolveur d'imports de Sass s'ils
+   cohabitent dans un même fichier .scss.
+   ===================================================== */
+
+@import "tw-animate-css";
+@import "tailwindcss";
+
+/* On relie les tokens définis dans themes/_themes.scss (CSS vars)
+   aux utilities Tailwind : bg-primary-500, text-accent-500,
+   font-heading, rounded-lg, etc. deviennent utilisables. */
+@theme {
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+
+  --color-accent-50: var(--color-accent-50);
+  --color-accent-100: var(--color-accent-100);
+  --color-accent-200: var(--color-accent-200);
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-700: var(--color-accent-700);
+
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-info: var(--color-info);
+
+  --color-page: var(--bg-page);
+  --color-surface: var(--bg-surface);
+  --color-surface-alt: var(--bg-surface-alt);
+  --color-surface-glass: var(--surface-glass);
+  --color-subtle: var(--border-subtle);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+
+/* Bouton de bascule de thème */
+.theme-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: var(--bg-surface-alt);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}

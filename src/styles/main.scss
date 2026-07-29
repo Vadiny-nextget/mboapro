@@ -1,0 +1,20 @@
+// =====================================================
+// MboaPro — main.scss
+// Couche "custom" du design system, en complément de Tailwind.
+// NE PAS mettre @import "tailwindcss" ici : Tailwind v4 est
+// géré séparément dans tailwind.css (voir README plus bas).
+// =====================================================
+
+@use 'abstracts/variables';
+@use 'abstracts/fonts';
+@use 'abstracts/mixins';
+
+@use 'themes/themes';
+
+@use 'base/reset';
+@use 'base/typography';
+
+@use 'animations/keyframes';
+@use 'animations/utilities';
+
+@use 'components/loaders';

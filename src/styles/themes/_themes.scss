@@ -1,0 +1,117 @@
+@use '../abstracts/variables' as v;
+
+// =====================================================
+// MboaPro — Thèmes clair / sombre
+// Toutes les valeurs sont exposées en CSS custom properties
+// afin d'être consommées à la fois par :
+//  - le CSS custom (composants Sass)
+//  - Tailwind v4 via @theme (voir tailwind.css)
+// Le thème actif est piloté par [data-theme="light|dark"]
+// posé sur <html>, avec persistance possible via localStorage.
+// =====================================================
+
+:root {
+  // Marque (identique dans les deux thèmes)
+  --color-primary-50: #{v.$color-primary-50};
+  --color-primary-100: #{v.$color-primary-100};
+  --color-primary-200: #{v.$color-primary-200};
+  --color-primary-300: #{v.$color-primary-300};
+  --color-primary-400: #{v.$color-primary-400};
+  --color-primary-500: #{v.$color-primary-500};
+  --color-primary-600: #{v.$color-primary-600};
+  --color-primary-700: #{v.$color-primary-700};
+  --color-primary-800: #{v.$color-primary-800};
+  --color-primary-900: #{v.$color-primary-900};
+
+  --color-accent-50: #{v.$color-accent-50};
+  --color-accent-100: #{v.$color-accent-100};
+  --color-accent-200: #{v.$color-accent-200};
+  --color-accent-300: #{v.$color-accent-300};
+  --color-accent-400: #{v.$color-accent-400};
+  --color-accent-500: #{v.$color-accent-500};
+  --color-accent-600: #{v.$color-accent-600};
+  --color-accent-700: #{v.$color-accent-700};
+
+  --color-success: #{v.$color-success-500};
+  --color-warning: #{v.$color-warning-500};
+  --color-danger: #{v.$color-danger-500};
+  --color-info: #{v.$color-info-500};
+
+  --font-heading: #{v.$font-heading};
+  --font-body: #{v.$font-body};
+  --font-mono: #{v.$font-mono};
+
+  --radius-sm: #{v.$radius-sm};
+  --radius-md: #{v.$radius-md};
+  --radius-lg: #{v.$radius-lg};
+  --radius-xl: #{v.$radius-xl};
+
+  --shadow-sm: #{v.$shadow-sm};
+  --shadow-md: #{v.$shadow-md};
+  --shadow-lg: #{v.$shadow-lg};
+
+  color-scheme: light;
+}
+
+// ---- Thème clair (par défaut) ------------------------------------
+[data-theme='light'] {
+  --bg-page: #{v.$color-gray-50};
+  --bg-surface: #{v.$color-gray-0};
+  --bg-surface-alt: #{v.$color-gray-100};
+  --surface-glass: rgba(255, 255, 255, 0.72);
+
+  --border-subtle: #{v.$color-gray-200};
+  --border-strong: #{v.$color-gray-300};
+
+  --text-primary: #{v.$color-gray-900};
+  --text-secondary: #{v.$color-gray-600};
+  --text-muted: #{v.$color-gray-400};
+  --text-on-primary: #{v.$color-gray-0};
+
+  --shimmer-base: #{v.$color-gray-200};
+  --shimmer-highlight: #{v.$color-gray-100};
+
+  color-scheme: light;
+}
+
+// ---- Thème sombre --------------------------------------------------
+[data-theme='dark'] {
+  --bg-page: #{v.$color-gray-600};
+  --bg-surface: #{v.$color-gray-900};
+  --bg-surface-alt: #{v.$color-gray-800};
+  --surface-glass: rgba(20, 23, 27, 0.72);
+
+  --border-subtle: #{v.$color-gray-800};
+  --border-strong: #{v.$color-gray-700};
+
+  --text-primary: #{v.$color-gray-50};
+  --text-secondary: #{v.$color-gray-300};
+  --text-muted: #{v.$color-gray-500};
+  --text-on-primary: #{v.$color-gray-0};
+
+  --shimmer-base: #{v.$color-gray-800};
+  --shimmer-highlight: #{v.$color-gray-700};
+
+  color-scheme: dark;
+}
+
+// Respecte la préférence système si aucun choix explicite n'est stocké
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg-page: #{v.$color-gray-950};
+    --bg-surface: #{v.$color-gray-900};
+    --bg-surface-alt: #{v.$color-gray-800};
+    --surface-glass: rgba(20, 23, 27, 0.72);
+    --border-subtle: #{v.$color-gray-800};
+    --border-strong: #{v.$color-gray-700};
+    --text-primary: #{v.$color-gray-50};
+    --text-secondary: #{v.$color-gray-300};
+    --text-muted: #{v.$color-gray-500};
+    --shimmer-base: #{v.$color-gray-800};
+    --shimmer-highlight: #{v.$color-gray-700};
+    color-scheme: dark;
+  }
+}
+:root, [data-theme] {
+  transition: background-color 180ms ease, color 180ms ease;
+}

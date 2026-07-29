@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "explore": "Explorer les services",
+    "becomeProvider": "Devenir prestataire",
+    "howItWorks": "Comment ça marche",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "mySpace": "Mon espace"
+  },
+  "home": {
+    "heroTitle": "Trouvez le bon professionnel, en toute confiance",
+    "heroSubtitle": "Plombiers, électriciens, coiffeurs à domicile, coachs, traducteurs, comptables freelances — tous vérifiés par MboaPro.",
+    "searchPlaceholder": "Ex: plombier à Douala...",
+    "search": "Rechercher",
+    "featuredProviders": "Prestataires en vedette",
+    "seeAll": "Voir tout",
+    "ctaTitle": "Vous êtes un professionnel ?",
+    "ctaSubtitle": "Rejoignez MboaPro et proposez vos services à des milliers de clients au Cameroun.",
+    "ctaButton": "Devenir prestataire"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "noResults": "Aucun résultat trouvé",
+    "verified": "Vérifié",
+    "startingFrom": "à partir de",
+    "reviews": "avis"
+  },
+  "errors": {
+    "boundaryTitle": "Une erreur est survenue",
+    "boundaryMessage": "Quelque chose s'est mal passé. Vous pouvez réessayer ou retourner à l'accueil.",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'accueil",
+    "details": "Détails techniques"
+  }
+}

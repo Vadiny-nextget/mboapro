@@ -1,0 +1,38 @@
+@use '../abstracts/variables' as v;
+
+// =====================================================
+// MboaPro — Classes utilitaires d'animation
+// Usage direct dans le JSX : className="animate-fade-in-up"
+// Complémentaires aux utilities Tailwind (ne les remplacent pas).
+// =====================================================
+
+.animate-fade-in       { animation: fade-in v.$duration-base v.$ease-out both; }
+.animate-fade-out      { animation: fade-out v.$duration-base v.$ease-in both; }
+.animate-fade-in-up    { animation: fade-in-up v.$duration-slow v.$ease-out both; }
+.animate-fade-in-down  { animation: fade-in-down v.$duration-slow v.$ease-out both; }
+.animate-scale-in      { animation: scale-in v.$duration-base v.$ease-out both; }
+.animate-scale-pop     { animation: scale-pop v.$duration-slow v.$ease-standard; }
+.animate-slide-in-right{ animation: slide-in-right v.$duration-slow v.$ease-out both; }
+.animate-slide-in-left { animation: slide-in-left v.$duration-slow v.$ease-out both; }
+.animate-pulse-soft    { animation: pulse-soft 1.8s v.$ease-standard infinite; }
+.animate-bounce-soft   { animation: bounce-soft 1.2s v.$ease-standard infinite; }
+.animate-ring-pulse    { animation: ring-pulse 2s infinite; }
+
+// ---- Délais utilitaires (stagger de listes de cartes) --------------
+@for $i from 1 through 8 {
+  .animate-delay-#{$i * 75} {
+    animation-delay: #{$i * 75}ms;
+  }
+}
+
+// ---- Respect des préférences d'accessibilité -----------------------
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
