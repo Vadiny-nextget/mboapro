@@ -1,75 +1,97 @@
-# React + TypeScript + Vite
+# MboaPro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MboaPro est une plateforme moderne de mise en relation entre clients et prestataires au Cameroun, conçue pour rendre la recherche de services locaux plus simple, rapide et fiable.
 
-Currently, two official plugins are available:
+Notre vision est claire : connecter les bons professionnels aux bons clients, avec une expérience fluide, une réputation vérifiée et un niveau de confiance élevé.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Pourquoi MboaPro ?
 
-## React Compiler
+MboaPro répond à un besoin réel dans plusieurs secteurs :
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Plomberie
+- Électricité
+- Coiffure à domicile
+- Coaching
+- Traduction
+- Comptabilité freelance
 
-## Expanding the ESLint configuration
+La plateforme met l’accent sur :
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- une recherche rapide et intuitive
+- des prestataires vérifiés
+- une réputation transparente
+- une expérience utilisateur moderne et responsive
+- un parcours d’inscription simple pour les professionnels
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Fonctionnalités principales
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Recherche de services par catégorie et localisation
+- Profils prestataires détaillés
+- Système de réputation et d’évaluations
+- Interface multilingue
+- Expérience adaptée mobile et desktop
+- Parcours d’authentification et d’onboarding
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Stack technique
 
+Ce projet est développé avec une stack moderne et performante :
+
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Zustand
+- i18next
+- Axios
+- Lucide React
+
+## Structure du projet
+
+- src/pages : pages publiques, auth, dashboard client et prestataire
+- src/components : composants UI, layout et modules d’authentification
+- src/store : gestion d’état globale
+- src/i18n : internationalisation
+- src/data : données mock et constantes
+- src/styles : styles globaux et thèmes
+
+## Démarrage rapide
+
+Prérequis :
+
+- Node.js 18+
+- npm ou pnpm
+
+Installation :
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Lancer le projet en mode développement :
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+Le site sera alors disponible sur l’adresse locale fournie par Vite.
+
+## Scripts disponibles
+
+```bash
+npm run dev
+npm run dev-host
+npm run build
+npm run lint
+npm run preview
+```
+
+## Contribution
+
+Les contributions sont les bienvenues. Si vous souhaitez améliorer la plateforme, ouvrir une issue ou proposer une modification, n’hésitez pas à contribuer.
+
+## Auteur
+
+Développé par Vadiny Fotsing
+
+Portfolio : https://portfolio-hindra98.vercel.app
