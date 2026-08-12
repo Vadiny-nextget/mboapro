@@ -1,4 +1,4 @@
-import type { Provider } from '../components/ui/ProviderCard';
+import type { Provider } from '../components/ui/ServiceCard';
 
 export const mockProviders: Provider[] = [
   {

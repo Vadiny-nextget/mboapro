@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link2, Briefcase } from "lucide-react";
+import { Link2, Briefcase, Phone, MessageCircle } from "lucide-react";
 import clsx from "clsx";
 import {
   Input,
@@ -9,6 +9,10 @@ import {
 } from "../../../components/ui/Input";
 import { useSellerOnboardingStore } from "../../../store/useSellerOnboardingStore";
 import { serviceCategories } from "../../../data/serviceCategories";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../store/useAuthStore";
+import { authService } from "../../../services/authService";
+import type { ApiError } from "../../../types/api.types";
 
 const MAX_SKILLS = 5;
 
@@ -19,104 +23,77 @@ interface StepProfessionalProps {
 export default function StepProfessional({
   onComplete,
 }: StepProfessionalProps) {
-  const { professional, setProfessional, setPortfolioImages, prevStep } =
-    useSellerOnboardingStore();
+  const store = useSellerOnboardingStore();
+
+  const { professional, setProfessional, prevStep, reset } = store;
+  const setSession = useAuthStore((s) => s.setSession);
+  const navigate = useNavigate();
+
+
   const [form, setForm] = useState(professional);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const availableSkills = useMemo(
-    () => serviceCategories.find((c) => c.id === form.category)?.skills ?? [],
-    [form.category],
-  );
-
-  const handleCategoryChange = (categoryId: string) => {
-    setForm((f) => ({ ...f, category: categoryId, skills: [] }));
-  };
-
-  const toggleSkill = (skill: string) => {
-    setForm((f) => {
-      const alreadySelected = f.skills.includes(skill);
-      if (alreadySelected) {
-        return { ...f, skills: f.skills.filter((s) => s !== skill) };
-      }
-      if (f.skills.length >= MAX_SKILLS) return f;
-      return { ...f, skills: [...f.skills, skill] };
-    });
-  };
+  const [globalError, setGlobalError] = useState('');
 
   const validate = () => {
     const next: Record<string, string> = {};
-    if (!form.category) next.category = "Catégorie requise.";
-    if (form.skills.length === 0)
-      next.skills = "Sélectionnez au moins une compétence.";
     if (!form.yearsExperience) next.yearsExperience = "Champ requis.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+   /** Assemble toutes les données collectées sur les 5 étapes en multipart/form-data. */
+  const buildFormData = (): FormData => {
+    const fd = new FormData();
+    fd.append('verificationToken', store.verificationToken);
+    fd.append('firstName', store.personal.firstName);
+    fd.append('lastName', store.personal.lastName);
+    fd.append('description', store.personal.description);
+    fd.append('preferredLanguage', store.personal.preferredLanguage);
+    fd.append('password', store.personal.password);
+    fd.append('confirmPassword', store.personal.confirmPassword);
+
+    fd.append('region', store.location.region);
+    fd.append('city', store.location.city);
+    fd.append('address', store.location.address);
+    fd.append('street', store.location.street);
+    fd.append('postalCode', store.location.postalCode);
+
+    fd.append('portfolioUrl', form.portfolioUrl);
+    fd.append('yearsExperience', form.yearsExperience);
+    fd.append('whatsapp', form.whatsapp);
+
+    if (store.avatarFile) fd.append('avatar', store.avatarFile);
+
+    return fd;
+  };
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setProfessional(form);
     setIsSubmitting(true);
-    // TODO: appel API final de création du compte prestataire (multipart avec fichiers)
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setGlobalError("")
+
+    try {
+      const session = await authService.registerProvider(buildFormData());
+      setSession(session);
+      reset(); // vide le wizard : plus rien à reprendre après un compte créé avec succès
       onComplete?.();
-    }, 900);
+      navigate('/prestataire/prestations/nouveau');
+    } catch (err) {
+      const apiError = err as ApiError;
+      if (apiError.fieldErrors) setErrors(apiError.fieldErrors);
+      setGlobalError(apiError.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+
   };
 
   return (
     <form className="flex flex-col gap-4">
       <h4 className="font-heading text-lg font-bold text-primary">Activité</h4>
-      <InputSelect
-        id="category"
-        title="Choisissez votre catégorie de service"
-        value={form.category}
-        error={errors.category}
-        onChange={(e) => {handleCategoryChange(e.target.value); setErrors({ ...errors, category: "" });}}
-        items={serviceCategories.map((c) => ({ name: c.label, value: c.id }))}
-      />
-
-      {form.category && (
-        <div>
-          <div className="mb-2 flex items-center justify-between">
-            <label className="text-sm">Compétences</label>
-            <span className="text-xs text-muted">
-              {form.skills.length}/{MAX_SKILLS} sélectionnées
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {availableSkills.map((skill) => {
-              const isSelected = form.skills.includes(skill);
-              const isDisabled =
-                !isSelected && form.skills.length >= MAX_SKILLS;
-              return (
-                <button
-                  key={skill}
-                  type="button"
-                  disabled={isDisabled}
-                  onClick={() => {toggleSkill(skill); setErrors({...errors, skills: ""})}}
-                  className={clsx(
-                    "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-                    isSelected
-                      ? "border-primary-500 bg-primary-500 text-on-primary"
-                      : "border-subtle text-secondary hover:border-primary-300",
-                    isDisabled && "cursor-not-allowed opacity-40",
-                  )}
-                >
-                  {skill}
-                </button>
-              );
-            })}
-          </div>
-          {errors.skills && (
-            <p className="mt-1.5 text-sm text-danger">{errors.skills}</p>
-          )}
-        </div>
-      )}
-
       <Input
         id="portfolioUrl"
         label="Portfolio / site web (optionnel)"
@@ -127,7 +104,6 @@ export default function StepProfessional({
           setForm((f) => ({ ...f, portfolioUrl: e.target.value }))
         }
       />
-
       <Input
         id="yearsExperience"
         type="number"
@@ -140,13 +116,17 @@ export default function StepProfessional({
           {setForm((f) => ({ ...f, yearsExperience: e.target.value })); setErrors({ ...errors, yearsExperience: "" });
 }        }
       />
-
-      <InputFilesUpload
-        label="Photos illustrant vos réalisations (max 5)"
-        allowedTypes={["image/jpeg", "image/png", "image/webp"]}
-        maxFiles={5}
-        onFilesChange={(files: File[]) => setPortfolioImages(files)}
+      <Input
+        id="whatsapp"
+        label="Numéro WhatsApp (optionnel)"
+        Icon={MessageCircle}
+        placeholder="677123456"
+        value={form.whatsapp}
+        onChange={(e) =>
+          setForm((f) => ({ ...f, whatsapp: e.target.value.replace(/\D/g, '') }))
+        }
       />
+      {globalError && <p className="text-sm text-danger">{globalError}</p>}
 
       <div className="flex gap-3">
         <Button
@@ -160,6 +140,7 @@ export default function StepProfessional({
           type="submit"
           handleClick={handleSubmit}
           loading={isSubmitting}
+          disabled={isSubmitting}
           backgroundColor="var(--color-primary-500)"
           className="flex-1 justify-center text-white"
         >
@@ -170,6 +151,9 @@ export default function StepProfessional({
       <p className="text-center text-xs text-muted">
         Les informations de paiement seront demandées plus tard, dans votre
         espace prestataire.
+      </p>
+      <p className="text-center text-xs text-muted">
+        Vous pourrez publier votre premier service (catégorie, compétences, photos) juste après.
       </p>
     </form>
   );

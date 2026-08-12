@@ -5,6 +5,8 @@ import { Input, Button, InputCheck } from "../../../components/ui/Input";
 import { useSellerOnboardingStore } from "../../../store/useSellerOnboardingStore";
 import type { ContactType } from "../../../types/onboarding.types";
 import { formatPhone, isEmail, isPhone } from "../../../lib/text.func";
+import { authService } from "../../../services/authService";
+import type { ApiError } from "../../../types/api.types";
 
 // const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // const PHONE_REGEX = /^6|2\d{8}$/; // format Cameroun : 9 chiffres commençant par 6 ou 2
@@ -15,14 +17,16 @@ export default function StepContact() {
   const [identifier, setIdentifier] = useState(contact.identifier);
   const [acceptedTerms, setAcceptedTerms] = useState(contact.acceptedTerms);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const switchMode = (m: ContactType) => {
     setError("");
     setMode(m);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
     if (mode === "email" && !isEmail(identifier)) {
       setError("Adresse email invalide.");
@@ -37,14 +41,22 @@ export default function StepContact() {
       return;
     }
 
-    setError("");
-    setContact({
-      identifier: identifier.replaceAll(" ", ""),
-      type: mode,
-      acceptedTerms,
-    });
-    // TODO: déclencher l'envoi réel du code OTP via API
-    nextStep();
+    setIsSubmitting(true);
+
+    try {
+      await authService.sendOtp(identifier.replaceAll(" ",""), 'register_prestataire');
+      setContact({ identifier:identifier?.replaceAll(" ", ""), type: mode, acceptedTerms });
+      nextStep();
+    } catch (err) {
+      const apiError = err as ApiError;
+      if (apiError.status === 429 && apiError.meta?.secondsRemaining) {
+        setError(`Veuillez attendre ${apiError.meta.secondsRemaining}s avant de réessayer.`);
+      } else {
+        setError(apiError.message);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -128,6 +140,8 @@ export default function StepContact() {
         handleClick={handleSubmit}
         backgroundColor="var(--color-primary-500)"
         className="justify-center text-white"
+        loading={isSubmitting}
+        disabled={isSubmitting}
       >
         Continuer
       </Button>

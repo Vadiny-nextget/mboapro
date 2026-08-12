@@ -3,6 +3,7 @@ import { Menu, Bell, Sun, Moon, ChevronDown, LogOut, Settings } from 'lucide-rea
 import { useAuthStore } from '../../store/useAuthStore';
 import { useTheme } from '../../hooks/useTheme';
 import { Img } from '../ui/Img';
+import { getFullName } from '../../utils/user';
 
 interface DashboardHeaderProps {
   onMenuClick: () => void;
@@ -49,8 +50,8 @@ export default function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
             className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-(--bg-surface-alt)"
           >
             <Img
-              src={user?.avatarUrl || 'https://api.dicebear.com/9.x/initials/svg?seed=' + user?.fullName}
-              alt={user?.fullName}
+              src={user?.avatarUrl || 'https://api.dicebear.com/9.x/initials/svg?seed=' + (user ? getFullName(user):"")}
+              alt={user ? getFullName(user):""}
               className="h-8 w-8 rounded-full object-cover"
             />
             <ChevronDown size={16} className="text-muted" />
@@ -58,7 +59,7 @@ export default function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
 
           {isMenuOpen && (
             <div className="animate-scale-in absolute right-0 mt-2 w-52 origin-top-right rounded-md border border-subtle bg-(--bg-page) p-1.5 shadow-lg">
-              <p className="truncate px-3 py-2 text-sm font-semibold">{user?.fullName}</p>
+              <p className="truncate px-3 py-2 text-sm font-semibold">{user ? getFullName(user):""}</p>
               <hr className="my-1 border-subtle" />
               <button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-secondary hover:bg-(--bg-surface-alt)">
                 <Settings size={16} /> Paramètres

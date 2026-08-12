@@ -1,9 +1,15 @@
+import { authService } from "../../services/authService";
+
 interface SocialAuthButtonsProps {
   onGoogleClick?: () => void;
   onLinkedinClick?: () => void;
 }
 
 export default function SocialAuthButtons({ onGoogleClick, onLinkedinClick }: SocialAuthButtonsProps) {
+  const handleOAuthClick = (provider: 'google' | 'linkedin') => {
+    // Redirection pleine page — nécessaire pour le flow OAuth (pas un simple fetch)
+    window.location.href = authService.getOAuthRedirectUrl(provider);
+  };
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-3 my-4">
@@ -15,7 +21,8 @@ export default function SocialAuthButtons({ onGoogleClick, onLinkedinClick }: So
       <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
-          onClick={onGoogleClick}
+          onClick={()=> handleOAuthClick('google')}
+          // onClick={onGoogleClick}
           className="cursor-pointer flex items-center justify-center gap-2 rounded-md border border-subtle bg-(--bg-surface)/60 py-2.5 text-sm font-medium text-primary backdrop-blur-sm transition-colors hover:bg-(--bg-surface-alt)"
         >
           <svg width="18" height="18" viewBox="0 0 24 24">
@@ -28,7 +35,8 @@ export default function SocialAuthButtons({ onGoogleClick, onLinkedinClick }: So
         </button>
         <button
           type="button"
-          onClick={onLinkedinClick}
+          onClick={()=> handleOAuthClick('linkedin')}
+          // onClick={onLinkedinClick}
           className="cursor-pointer flex items-center justify-center gap-2 rounded-md border border-subtle bg-(--bg-surface)/60 py-2.5 text-sm font-medium text-primary backdrop-blur-sm transition-colors hover:bg-(--bg-surface-alt)"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2">

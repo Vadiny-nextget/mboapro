@@ -18,7 +18,22 @@ import AdminDashboardHome from "../pages/admin/AdminDashboardHome";
 import SellerRegisterPage from "../pages/auth/SellerRegisterPage";
 import { appGoogleId } from "../config/common-constant";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ForgotPasswordPage from "../pages/auth/ForgotPassword";
+import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
+import Login2FAPage from "../pages/auth/Login2FAPage";
+import ClientRegisterPage from "../pages/auth/ClientRegisterPage";
+import OAuthCallbackPage from "../pages/auth/OAuthCallbackPage";
+import UpgradeToProviderPage from "../pages/UpgradeToProviderPage";
+import CreateServicePage from "../pages/prestataire/CreateServicePage";
+import ServiceDetailPage from "../pages/public/ServiceDetailPage";
+import ProviderProfilePage from "../pages/public/ProviderProfilePage";
+import MyServicesPage from "../pages/prestataire/MyServicesPage";
+import EditServicePage from "../pages/prestataire/EditServicePage";
+import { Help, Privacy, TermsOfUse } from "../pages/public/TermsOfUse";
+import ReceivedContactRequestsPage from "../pages/prestataire/ReceivedContactRequestsPage";
+import MyContactRequestsPage from "../pages/client/MyContactRequestsPage";
+import AdminProvidersPage from "../pages/admin/AdminProvidersPage";
+import AdminCategoriesPage from "../pages/admin/AdminCategoriesPage";
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,20 +41,33 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/services", element: <ServicesListPage /> },
+      { path: "/services/:slug", element: <ServiceDetailPage /> },
+      { path: "/prestataires/:userId", element: <ProviderProfilePage /> },
     ],
   },
   {
     element: <AuthLayout />,
     children: [
-      { path: "/connexion", element: <GoogleOAuthProvider clientId={appGoogleId}><LoginPage /></GoogleOAuthProvider> },
+      {
+        path: "/connexion",
+        element: (
+          <GoogleOAuthProvider clientId={appGoogleId}>
+            <LoginPage />
+          </GoogleOAuthProvider>
+        ),
+      },
       { path: "/inscription", element: <RegisterPage /> },
+      { path: "/inscription/prestataire", element: <SellerRegisterPage /> },
+      { path: "/verification-2fa", element: <Login2FAPage /> },
       { path: "/forgot-password", element: <ForgotPasswordPage /> },
       {
-        path: "/inscription/prestataire",
-        element: <SellerRegisterPage />,
+        path: "/inscription/client",
+        element: <ClientRegisterPage />,
       },
     ],
   },
+
+  // Protégée, réservée aux clients
   {
     element: <ProtectedRoute />,
     children: [
@@ -49,8 +77,12 @@ export const router = createBrowserRouter([
           {
             path: "/client",
             element: <DashboardLayout />,
-            children: [{ index: true, element: <ClientDashboardHome /> }],
+            children: [
+              { index: true, element: <ClientDashboardHome /> },
+              { path: "/client/messages", element: <MyContactRequestsPage /> },
+            ],
           },
+          { path: "/devenir-prestataire", element: <UpgradeToProviderPage /> },
         ],
       },
       {
@@ -59,7 +91,22 @@ export const router = createBrowserRouter([
           {
             path: "/prestataire",
             element: <DashboardLayout />,
-            children: [{ index: true, element: <ProviderDashboardHome /> }],
+            children: [
+              { index: true, element: <ProviderDashboardHome /> },
+              {
+                path: "/prestataire/prestations/nouveau",
+                element: <CreateServicePage />,
+              },
+              { path: "/prestataire/prestations", element: <MyServicesPage /> },
+              {
+                path: "/prestataire/prestations/:slug/modifier",
+                element: <EditServicePage />,
+              },
+              {
+                path: "/prestataire/commandes",
+                element: <ReceivedContactRequestsPage />,
+              },
+            ],
           },
         ],
       },
@@ -69,12 +116,23 @@ export const router = createBrowserRouter([
           {
             path: "/admin",
             element: <DashboardLayout />,
-            children: [{ index: true, element: <AdminDashboardHome /> }],
+            children: [
+              { index: true, element: <AdminDashboardHome /> },
+              { path: "/admin/utilisateurs", element: <AdminUsersPage /> },
+              { path: "/admin/prestataires", element: <AdminProvidersPage /> },
+              { path: "/admin/categories", element: <AdminCategoriesPage /> },
+            ],
           },
         ],
       },
     ],
   },
+
+  // Route publique, hors Layout
+  { path: "/oauth/callback", element: <OAuthCallbackPage /> },
   { path: "/non-autorise", element: <UnauthorizedPage /> },
+  { path: "/aide", element: <Help /> },
+  { path: "/conditions", element: <TermsOfUse /> },
+  { path: "/confidentialite", element: <Privacy /> },
   { path: "*", element: <NotFoundPage /> },
 ]);

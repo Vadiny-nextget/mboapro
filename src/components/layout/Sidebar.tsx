@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { X } from 'lucide-react';
 import { navigationByRole } from '../../config/navigation';
 import type { UserRole } from '../../types/auth.types';
+import BecomeProviderButton from '../ui/BecomeProviderButton';
 
 interface SidebarProps {
   role: UserRole;
@@ -54,6 +55,7 @@ export default function Sidebar({ role, isOpen, onClose }: SidebarProps) {
             {label}
           </NavLink>
         ))}
+        {role === 'client' && <div className="mt-4 px-3"><BecomeProviderButton /></div>}
       </nav>
     </>
   );

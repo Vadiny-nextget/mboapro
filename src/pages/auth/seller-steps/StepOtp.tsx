@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { useSellerOnboardingStore } from "../../../store/useSellerOnboardingStore";
 import { Button, InputOtp } from "../../../components/ui/Input";
+import type { ApiError } from "../../../types/api.types";
+import { authService } from "../../../services/authService";
 
 const RESEND_DELAY = 60;
 
 export default function StepOtp() {
-  const { contact, otp, setOtp, nextStep, prevStep } =
-    useSellerOnboardingStore();
+    const { contact, otp, setOtp, setVerificationToken, nextStep, prevStep } = useSellerOnboardingStore();
   const [error, setError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(RESEND_DELAY);
 
   useEffect(() => {
@@ -18,24 +20,32 @@ export default function StepOtp() {
     return () => clearInterval(timer);
   }, [secondsLeft]);
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
+    setError("");
     if (otp.length !== 6) {
       setError("Veuillez saisir les 6 chiffres reçus.");
       return;
     }
     setIsVerifying(true);
-    setError("");
-    // TODO: appel API réel de vérification OTP
-    setTimeout(() => {
-      setIsVerifying(false);
-      nextStep();
-    }, 700);
+    try {
+      const {verificationToken} = await authService.verifyOtp(contact.identifier, otp, 'register_prestataire');
+      setVerificationToken(verificationToken);
+      nextStep()
+    } catch(err) {setError((err as ApiError).message)} finally {setIsVerifying(false)}
   };
 
-  const handleResend = () => {
-    if (secondsLeft > 0) return;
-    // TODO: appel API réel de renvoi du code
-    setSecondsLeft(RESEND_DELAY);
+  const handleResend = async() => {
+    if (secondsLeft > 0 || isResending) return;
+    setIsResending(true);
+    try {
+      await authService.sendOtp(contact.identifier, 'register_prestataire');
+      setSecondsLeft(RESEND_DELAY);
+      setOtp('');
+    } catch (err) {
+      setError((err as ApiError).message);
+    } finally {
+      setIsResending(false);
+    }
   };
 
   return (
@@ -63,7 +73,7 @@ export default function StepOtp() {
       <button
         type="button"
         onClick={handleResend}
-        disabled={secondsLeft > 0}
+        disabled={secondsLeft > 0 || isResending}
         className="flex items-center gap-1.5 text-sm font-medium text-primary-500 disabled:text-muted"
       >
         <RotateCcw size={14} />

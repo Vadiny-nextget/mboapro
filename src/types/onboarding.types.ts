@@ -27,20 +27,27 @@ export interface OnboardingLocation {
 }
 
 export interface OnboardingProfessional {
-  category: string;
-  skills: string[];
   portfolioUrl: string;
   yearsExperience: string;
+  whatsapp: string;
 }
 
 export interface SellerOnboardingState {
   currentStep: number;
   contact: OnboardingContact;
   otp: string;
+  verificationToken: string;
   personal: OnboardingPersonal;
   location: OnboardingLocation;
   professional: OnboardingProfessional;
   // Fichiers gardés hors persistance (voir partialize dans le store)
   avatarFile: File | null;
-  portfolioImages: File[];
+}
+export interface ClientOnboardingState {
+  currentStep: number;
+  contact: OnboardingContact;
+  otp: string;
+  verificationToken: string;
+  personal: Omit<OnboardingPersonal, 'description'>;
+  avatarFile: File | null;
 }

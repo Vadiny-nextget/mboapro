@@ -1,3 +1,4 @@
+
 import type React from "react";
 
 export type Theme = "light" | "dark" | "system" | "default";
@@ -5,6 +6,8 @@ export type Theme = "light" | "dark" | "system" | "default";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   className?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   backgroundColor?: string;
   children: React.ReactNode;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -83,6 +86,11 @@ export interface FilesUploadProps {
   required?: boolean;
   multiple?: boolean;
   onFilesChange?: (files: File[] | File) => void;
+}
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  error?: string;
+  css?: string;
+  label?: React.ReactNode;
 }
 
 export interface Imgrops extends React.ImgHTMLAttributes<HTMLImageElement> {

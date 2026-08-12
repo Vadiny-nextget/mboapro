@@ -50,7 +50,7 @@ export default function StepPersonalInfo() {
         allowedTypes={["image/jpeg", "image/png", "image/webp"]}
         maxSize={3}
         fileUrl={avatarFile ? URL.createObjectURL(avatarFile) : ""}
-        onFilesChange={(file: File) => setAvatarFile(file)}
+        onFilesChange={(file: File|File[]) => setAvatarFile(file as File)}
       />
 
       <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row justify-between gap-3">

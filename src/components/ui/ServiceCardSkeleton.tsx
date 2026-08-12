@@ -1,5 +1,5 @@
-/** État de chargement de ProviderCard, réutilise les classes shimmer du design system. */
-export default function ProviderCardSkeleton() {
+/** État de chargement de ServiceCard, réutilise les classes shimmer du design system. */
+export default function ServiceCardSkeleton() {
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-subtle bg-surface shadow-sm">
       <div className="skeleton-card" />

@@ -14,6 +14,7 @@ import type {
   InputOtpProps,
   InputProps,
   SelectProps,
+  TextareaProps,
 } from "../../types/ui.types";
 import clsx from "clsx";
 import { Img } from "./Img";
@@ -94,7 +95,7 @@ export const Input = ({
             <input
               id={id}
               type={inputType}
-              className={`w-full ${Icon ? "pl-12" : Ico ? "pl-13" : "pl-4"} ${type === "password" ? "pr-12" : "pr-4"} py-4 rounded-2xl border focus:outline-none focus:border-[#033720] transition-colors  ${error ? "border-red-500" : "border-gray-200 dark:border-gray-700"}`}
+              className={`w-full ${Icon ? "pl-12" : Ico ? "pl-13" : "pl-4"} ${type === "password" ? "pr-12" : "pr-4"} py-4 rounded-2xl border focus:outline-none focus:border-[#033720] transition-colors  ${error ? "border-red-500" : "border-gray-200"}`}
               {...props}
             />
             {type === "password" &&
@@ -423,38 +424,49 @@ export const InputSelect = ({
   value = "",
   title = "",
   items = [],
+  label,
   onChange,
 }: SelectProps) => {
   return (
     <motion.div
-      className={`${className} text-md flex flex-col gap-2 w-full max-w-md relative`}
+      className={`${className} text-md flex flex-col gap-2 w-full max-w-md`}
     >
-      <select
-        id={id.replaceAll(" ", "_").replaceAll("'", "")}
-        name={name}
-        disabled={disabled}
-        onChange={onChange}
-        value={value}
-        className={`py-4 px-2 rounded-2xl border focus:outline-none focus:border-[#033720] transition-colors appearance-none ${error ? "border-red-500" : "border-gray-200"} `}
-      >
-        {title && (
-          <option value="" disabled>
-            {title}
-          </option>
-        )}
-        {items.map((sc, idx) => (
-          <option
-            value={sc.value}
-            key={idx}
-            selected={sc.value === value}
-            className="bg-(--surface-glass)"
-          >
-            {sc.name}
-          </option>
-        ))}
-      </select>
+      {label && (
+        <label
+          htmlFor={id.replaceAll(" ", "_").replaceAll("'", "")}
+          className="text-sm cursor-pointer w-full"
+        >
+          {label}
+        </label>
+      )}
+      <div className="relative w-full">
+        <select
+          id={id.replaceAll(" ", "_").replaceAll("'", "")}
+          name={name}
+          disabled={disabled}
+          onChange={onChange}
+          value={value}
+          className={`py-4 px-2 w-full rounded-2xl border focus:outline-none focus:border-[#033720] transition-colors appearance-none ${error ? "border-red-500" : "border-gray-200"} `}
+        >
+          {title && (
+            <option value="" disabled>
+              {title}
+            </option>
+          )}
+          {items.map((sc, idx) => (
+            <option
+              value={sc.value}
+              key={idx}
+              selected={sc.value === value}
+              className="bg-(--surface-glass)"
+            >
+              {sc.name}
+            </option>
+          ))}
+        </select>
 
-      <ChevronsUpDown className="size-4 absolute right-2.5 top-5 -translate-y-" />
+        <ChevronsUpDown className="size-4 absolute right-2.5 top-5 -translate-y-" />
+      </div>
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </motion.div>
   );
@@ -465,6 +477,8 @@ export const Button = ({
   className = "",
   children = "",
   disabled = false,
+  leftIcon,
+  rightIcon,
   handleClick,
   ...props
 }: ButtonProps) => {
@@ -478,8 +492,17 @@ export const Button = ({
       disabled={disabled || loading}
       {...props}
     >
-      {loading && <Loader2 size={16} className="animate-spin" />}
+      {loading ? <Loader2 size={16} className="animate-spin" /> : leftIcon}
       {children}
+      {!loading && rightIcon}
+
+      {/* {isLoading ? ( */}
+      {/* //           <Loader2 size={16} className="animate-spin" />
+//         ) : (
+//           leftIcon
+//         )}
+//         {size !== 'icon' && children}
+//         {!isLoading && rightIcon} */}
     </button>
   );
 };
@@ -676,8 +699,8 @@ export const InputFilesUpload = ({
 
   return (
     <div className="flex flex-col gap-2 file w-full h-full border rounded-md shadow-md p-2">
-      <div className="flex gap-4 justify-between w-full">
-        <motion.label className="cursor-pointer" htmlFor="files-upload">
+      <div className="flex gap-4 justify-between w-full active:scale-95">
+        <motion.label className="cursor-pointer w-full" htmlFor="files-upload">
           {label}
         </motion.label>
         <span role="button" className="cursor-pointer" onClick={editClicked}>
@@ -827,5 +850,31 @@ export const InputFileUpload = ({
         </div>
       )}
     </div>
+  );
+};
+
+export const Textarea = ({
+  css = "",
+  error = "",
+  label,
+  id = "",
+  ...props
+}: TextareaProps) => {
+  return (
+    <motion.div
+      className={`${css} text-md flex flex-col gap-2 w-full max-w-md`}
+    >
+      {label && (
+        <label htmlFor={id} className="text-sm cursor-pointer w-full">
+          {label}
+        </label>
+      )}
+      <textarea
+        id={id}
+        className={`"w-full p-3 text-sm text-primary outline-none rounded-2xl border focus:outline-none focus:border-[#033720] transition-colors  ${error ? "border-red-500" : "border-gray-200"}`}
+        {...props}
+      />
+      {error && <p className="text-sm text-danger">{error}</p>}
+    </motion.div>
   );
 };

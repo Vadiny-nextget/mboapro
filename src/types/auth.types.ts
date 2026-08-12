@@ -1,13 +1,24 @@
-
 export type UserRole = 'client' | 'prestataire' | 'admin';
+export type UserStatus = 'pending' | 'active' | 'suspended';
 
 export interface AuthUser {
   id: string;
-  fullName: string;
-  email: string;
   role: UserRole;
-  avatarUrl?: string;
-  isVerified: boolean; // badge "réputation vérifiée"
+  email: string | null;
+  phone: string | null;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string | null;
+  description: string | null;
+  preferredLanguage: 'fr' | 'en';
+  isVerified: boolean;
+  is2faEnabled: boolean;
+  status: UserStatus;
+}
+export interface AuthSession {
+  accessToken: string;
+  refreshToken: string;
+  user: AuthUser;
 }
 
 interface ErrorMessageItem {

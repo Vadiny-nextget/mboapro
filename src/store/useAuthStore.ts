@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AuthUser } from '../types/auth.types';
+import type { AuthSession, AuthUser } from '../types/auth.types';
 
 interface AuthState {
   user: AuthUser | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
-  setSession: (user: AuthUser, token: string) => void;
+  setSession: (session: AuthSession) => void;
+  setAccessToken: (token: string) => void;
   logout: () => void;
 }
 
@@ -14,11 +16,13 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
+      accessToken: null,
+      refreshToken: null,
       isAuthenticated: false,
-      setSession: (user, token) =>
-        set({ user, token, isAuthenticated: true }),
-      logout: () => set({ user: null, token: null, isAuthenticated: false }),
+      setSession: ({user, accessToken,refreshToken}) =>
+        set({ user, accessToken,refreshToken, isAuthenticated: true }),
+      setAccessToken: (accessToken) => set({ accessToken }),
+      logout: () => set({ user: null, accessToken: null,refreshToken: null, isAuthenticated: false }),
     }),
     { name: 'mboapro-auth' }
   )
