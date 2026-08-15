@@ -39,6 +39,7 @@ export interface Service {
     preferredLanguage: 'fr' | 'en';
   };
   otherServices?: Service[];
+  isPendingCategory?: boolean;
 }
 
 export interface PaginatedResult<T> {
@@ -84,3 +85,17 @@ export interface ProviderContactInfo {
   phone: string | null;
   whatsapp: string | null;
 }
+
+export interface CategoryMatch {
+  title: string;
+  slug: string;
+  score: number;
+}
+
+export interface PendingCategorySuggestion {
+  id: string;
+  proposedTitle: string;
+  waitingServicesCount: number;
+  createdAt: string;
+}
+

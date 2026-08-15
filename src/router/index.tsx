@@ -34,6 +34,13 @@ import MyContactRequestsPage from "../pages/client/MyContactRequestsPage";
 import AdminProvidersPage from "../pages/admin/AdminProvidersPage";
 import AdminCategoriesPage from "../pages/admin/AdminCategoriesPage";
 import AdminUsersPage from "../pages/admin/AdminUsersPage";
+import ReviewsPage from "../pages/prestataire/ReviewsPage";
+import EarningsPage from "../pages/prestataire/EarningsPage";
+import MyProfilePagePrestataire from "../pages/prestataire/MyProfilePage";
+import MyProfilePageClient  from "../pages/client/MyProfilePage";
+import MissionsPage from "../pages/client/MissionsPage";
+import FavoritesPage from "../pages/client/FavoritesPage";
+import AdminCategorySuggestionsPage from "../pages/admin/AdminCategorySuggestionsPage";
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +87,9 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <ClientDashboardHome /> },
               { path: "/client/messages", element: <MyContactRequestsPage /> },
+              { path: '/client/missions', element: <MissionsPage /> },
+{ path: '/client/favoris', element: <FavoritesPage /> },
+{ path: '/client/profil', element: <MyProfilePageClient /> },
             ],
           },
           { path: "/devenir-prestataire", element: <UpgradeToProviderPage /> },
@@ -106,6 +116,10 @@ export const router = createBrowserRouter([
                 path: "/prestataire/commandes",
                 element: <ReceivedContactRequestsPage />,
               },
+              { path: '/prestataire/avis', element: <ReviewsPage /> },
+{ path: '/prestataire/revenus', element: <EarningsPage /> },
+{ path: '/prestataire/profil', element: <MyProfilePagePrestataire /> }, // celui de src/pages/prestataire/
+
             ],
           },
         ],
@@ -121,6 +135,7 @@ export const router = createBrowserRouter([
               { path: "/admin/utilisateurs", element: <AdminUsersPage /> },
               { path: "/admin/prestataires", element: <AdminProvidersPage /> },
               { path: "/admin/categories", element: <AdminCategoriesPage /> },
+{ path: '/admin/suggestions-categories', element: <AdminCategorySuggestionsPage /> },
             ],
           },
         ],

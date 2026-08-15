@@ -13,6 +13,7 @@ import type { Service } from "../../types/catalog.types";
 import { Button } from "../../components/ui/Input";
 import { useAuthStore } from "../../store/useAuthStore";
 import ContactProviderModal from "../../components/ui/ContactProviderModal";
+import FavoriteButton from "../../components/ui/FavoriteButton";
 
 const formatFCFA = (amount: number) =>
   new Intl.NumberFormat("fr-FR").format(amount) + " FCFA";
@@ -200,6 +201,7 @@ export default function ServiceDetailPage() {
                   : "Contacter le prestataire"}
               </Button>
             )}
+            {currentUser?.role === 'client' && <FavoriteButton serviceId={service.id} />}
 
             <hr className="border-subtle" />
 

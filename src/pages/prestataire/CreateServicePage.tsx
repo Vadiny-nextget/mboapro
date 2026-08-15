@@ -7,6 +7,7 @@ import { ApiError } from '../../types/api.types';
 import type { Category, PriceUnit } from '../../types/catalog.types';
 import { cameroonRegions } from '../../data/cameroonRegions';
 import { Button, Input, InputFilesUpload, InputSelect, Textarea } from '../../components/ui/Input';
+import CategorySuggestionFlow from '../../components/prestataire/CategorySuggestionFlow';
 
 const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
   fixed: 'Prix fixe',
@@ -29,23 +30,26 @@ export default function CreateServicePage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [globalError, setGlobalError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [useCustomCategory, setUseCustomCategory] = useState(false);
+const [suggestion, setSuggestion] = useState({ title: '', description: '', justification: '' });
 
   useEffect(() => {
     catalogService.getCategories().then(setCategories);
   }, []);
 
   const validate = () => {
-    const next: Record<string, string> = {};
-    if (!title.trim()) next.title = 'Titre requis.';
-    if (!categoryId) next.categoryId = 'Catégorie requise.';
-    if (!description.trim()) next.description = 'Description requise.';
-    if (!price) next.price = 'Prix requis.';
-    if (!region) next.region = 'Région requise.';
-    if (!city.trim()) next.city = 'Ville requise.';
-    if (skills.length === 0) next.skills = 'Sélectionnez au moins une compétence.';
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
+  const next: Record<string, string> = {};
+  if (!title.trim()) next.title = 'Titre requis.';
+  if (!useCustomCategory && !categoryId) next.categoryId = 'Catégorie requise.';
+  if (useCustomCategory && !suggestion.title.trim()) next.categoryId = 'Nom de catégorie requis.';
+  if (!description.trim()) next.description = 'Description requise.';
+  if (!price) next.price = 'Prix requis.';
+  if (!region) next.region = 'Région requise.';
+  if (!city.trim()) next.city = 'Ville requise.';
+  if (skills.length === 0) next.skills = 'Sélectionnez au moins une compétence.';
+  setErrors(next);
+  return Object.keys(next).length === 0;
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,16 +60,33 @@ export default function CreateServicePage() {
     try {
       const fd = new FormData();
       fd.append('title', title);
-      fd.append('categoryId', categoryId);
       fd.append('description', description);
       fd.append('price', price);
       fd.append('priceUnit', priceUnit);
       fd.append('region', region);
       fd.append('city', city);
+
+      if (useCustomCategory) {
+  fd.append('categorySuggestionTitle', suggestion.title);
+  fd.append('categorySuggestionDescription', suggestion.description);
+  fd.append('categorySuggestionJustification', suggestion.justification);
+} else {
+  fd.append('categoryId', categoryId);
+}
+
+
       skills.forEach((skill) => fd.append('skills[]', skill));
       images.forEach((file) => fd.append('images[]', file));
 
       const service = await catalogService.createService(fd);
+navigate(
+  useCustomCategory
+    ? '/prestataire/prestations' // pas de slug public tant que non publié
+    : `/services/${service.slug}`
+);
+
+
+      // const service = await catalogService.createService(fd);
       navigate(`/services/${service.slug}`);
     } catch (err) {
       const apiError = err as ApiError;
@@ -92,7 +113,7 @@ export default function CreateServicePage() {
           onChange={(e) => {setTitle(e.target.value); setErrors({...errors, title:""})}}
         />
 
-        <InputSelect
+        {/* <InputSelect
           id="service-category"
           title="Catégorie"
           className='max-w-full!'
@@ -104,7 +125,58 @@ export default function CreateServicePage() {
             setErrors({...errors, categoryId:""})
           }}
           items={categories.map((c) => ({ name: c.title, value: c.id }))}
-        />
+        /> */}
+{!useCustomCategory ? (
+  <>
+    <InputSelect
+      id="service-category"
+      title="Catégorie"
+      value={categoryId}
+      error={errors.categoryId}
+      onChange={(e) => {
+        setCategoryId(e.target.value);
+        setSkills([]);
+      }}
+      items={categories.map((c) => ({ name: c.title, value: c.id }))}
+    />
+    <button
+      type="button"
+      onClick={() => {
+        setUseCustomCategory(true);
+        setCategoryId('');
+        setSkills([]);
+      }}
+      className="self-start text-sm font-medium text-primary-500 hover:underline"
+    >
+      Ma catégorie n'existe pas
+    </button>
+  </>
+) : (
+  <>
+    <CategorySuggestionFlow {...suggestion} onChange={setSuggestion} />
+    <button
+      type="button"
+      onClick={() => setUseCustomCategory(false)}
+      className="self-start text-sm font-medium text-secondary hover:underline"
+    >
+      ← Revenir à la liste des catégories
+    </button>
+  </>
+)}
+
+{(categoryId || useCustomCategory) && (
+  <div>
+    <label className="mb-1.5 block text-sm">Compétences proposées</label>
+    <SkillAutocomplete
+      categoryId={useCustomCategory ? null : categoryId}
+      allowWithoutCategory={useCustomCategory}
+      selected={skills}
+      onChange={setSkills}
+      maxSkills={5}
+    />
+    {errors.skills && <p className="mt-1 text-sm text-danger">{errors.skills}</p>}
+  </div>
+)}
 
         {categoryId && (
           <div>

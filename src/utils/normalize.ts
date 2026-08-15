@@ -38,6 +38,7 @@ export function normalizeService(raw: any): Service {
     },
     // Présent uniquement sur la réponse de détail (GET /services/:slug)
     otherServices: raw.other_services ? raw.other_services.map(normalizeService) : undefined,
+    isPendingCategory: Boolean(raw.is_pending_category),
   };
 }
 

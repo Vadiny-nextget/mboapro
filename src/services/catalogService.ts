@@ -1,6 +1,6 @@
 import { apiClient, toApiError } from '../lib/apiClient';
 import { normalizeCategory, normalizeProviderProfile, normalizeService } from '../utils/normalize';
-import type { Category, PaginatedResult, ProviderContactInfo, ProviderProfile, Service, ServiceSearchFilters, Skill } from '../types/catalog.types';
+import type { Category, CategoryMatch, PaginatedResult, PendingCategorySuggestion, ProviderContactInfo, ProviderProfile, Service, ServiceSearchFilters, Skill } from '../types/catalog.types';
 
 export const catalogService = {
   getCategories: async (): Promise<Category[]> => {
@@ -131,6 +131,28 @@ export const catalogService = {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return normalizeService(data.data);
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+  checkCategoryMatch: async (query: string): Promise<CategoryMatch[]> => {
+    try {
+      const { data } = await apiClient.get('/categories/check', { params: { q: query } });
+      return data.data.map((m: any) => ({ title: m.title, slug: m.slug, score: Number(m.score) }));
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+
+  getMyCategorySuggestions: async (): Promise<PendingCategorySuggestion[]> => {
+    try {
+      const { data } = await apiClient.get('/prestataire/category-suggestions');
+      return data.data.map((s: any) => ({
+        id: s.id,
+        proposedTitle: s.proposed_title,
+        waitingServicesCount: Number(s.waiting_services_count),
+        createdAt: s.created_at,
+      }));
     } catch (err) {
       throw toApiError(err);
     }

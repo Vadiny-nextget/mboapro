@@ -26,3 +26,14 @@ export interface PaginatedUsers {
   items: AuthUser[];
   pagination: { page: number; perPage: number; total: number; totalPages: number };
 }
+export interface PendingCategorySuggestionAdmin {
+  id: string;
+  proposedTitle: string;
+  proposedDescription: string | null;
+  justification: string | null;
+  waitingServicesCount: number;
+  providerName: string;
+  providerEmail: string | null;
+  createdAt: string;
+}
+

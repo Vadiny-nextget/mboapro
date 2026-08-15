@@ -9,13 +9,15 @@ interface SkillAutocompleteProps {
   selected: string[]; // noms des compétences déjà choisies
   onChange: (skills: string[]) => void;
   maxSkills?: number;
+  allowWithoutCategory?: boolean; // nouveau : autorise la saisie libre sans categoryId
 }
+
 
 /**
  * Autocomplétion des compétences existantes en base — n'empêche pas de
  * saisir un nom inédit (l'API fait le dédoublonnage à la création du service).
  */
-export default function SkillAutocomplete({ categoryId, selected, onChange, maxSkills = 5 }: SkillAutocompleteProps) {
+export default function SkillAutocomplete({ categoryId, selected, onChange, maxSkills = 5, allowWithoutCategory=false }: SkillAutocompleteProps) {
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebouncedValue(query, 300);
   const [results, setResults] = useState<Skill[]>([]);
@@ -66,14 +68,16 @@ export default function SkillAutocomplete({ categoryId, selected, onChange, maxS
           <input
             type="text"
             value={query}
-            disabled={!categoryId}
             onChange={(e) => {
               setQuery(e.target.value);
               setIsOpen(true);
             }}
             onFocus={() => setIsOpen(true)}
-            placeholder={categoryId ? 'Rechercher une compétence...' : 'Choisissez d\u2019abord une catégorie'}
             className="w-full rounded-md border border-subtle bg-surface px-3 py-2.5 text-sm text-primary outline-none focus:border-primary-500 disabled:opacity-50"
+          
+          disabled={!categoryId && !allowWithoutCategory}
+      placeholder={categoryId || allowWithoutCategory ? 'Rechercher ou ajouter une compétence...' : 'Choisissez d\u2019abord une catégorie'}
+      
           />
           {isLoading && <Loader2 size={16} className="absolute right-3 top-3 animate-spin text-muted" />}
 

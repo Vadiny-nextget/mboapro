@@ -12,6 +12,7 @@ import {
   CreditCard,
   Gavel,
   type LucideIcon,
+  Lightbulb,
 } from 'lucide-react';
 import type { UserRole } from '../types/auth.types';
 
@@ -45,5 +46,6 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
     { label: 'Catégories', to: '/admin/categories', icon: Tags },
     { label: 'Paiements', to: '/admin/paiements', icon: CreditCard },
     { label: 'Litiges', to: '/admin/litiges', icon: Gavel },
+    { label: 'Suggestions catégories', to: '/admin/suggestions-categories', icon: Lightbulb },
   ],
 };

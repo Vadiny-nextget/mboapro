@@ -123,6 +123,12 @@ export default function MyServicesPage() {
                 </p>
               </div>
 
+              {service.isPendingCategory && (
+  <span className="rounded-full bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
+    Catégorie en cours de validation
+  </span>
+)}
+
               <div className="flex flex-wrap items-center gap-2">
                 {AVAILABILITY_OPTIONS.map((opt) => (
                   <button

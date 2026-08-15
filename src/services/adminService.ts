@@ -1,6 +1,6 @@
 import { apiClient, toApiError } from '../lib/apiClient';
 import { normalizeCategory, normalizePendingProvider } from '../utils/normalize';
-import type { AdminDashboardStats, PaginatedUsers, PendingProvider } from '../types/admin.types';
+import type { AdminDashboardStats, PaginatedUsers, PendingCategorySuggestionAdmin, PendingProvider } from '../types/admin.types';
 import type { Category } from '../types/catalog.types';
 
 export const adminService = {
@@ -89,4 +89,46 @@ export const adminService = {
       throw toApiError(err);
     }
   },
+  getPendingCategorySuggestions: async (): Promise<PendingCategorySuggestionAdmin[]> => {
+    try {
+      const { data } = await apiClient.get('/admin/category-suggestions');
+      return data.data.map((s: any) => ({
+        id: s.id,
+        proposedTitle: s.proposed_title,
+        proposedDescription: s.proposed_description,
+        justification: s.justification,
+        waitingServicesCount: Number(s.waiting_services_count),
+        providerName: `${s.first_name} ${s.last_name}`.trim(),
+        providerEmail: s.email,
+        createdAt: s.created_at,
+      }));
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+
+  approveCategorySuggestion: async (id: string): Promise<void> => {
+    try {
+      await apiClient.post(`/admin/category-suggestions/${id}/approve`);
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+
+  mergeCategorySuggestion: async (id: string, categoryId: string): Promise<void> => {
+    try {
+      await apiClient.post(`/admin/category-suggestions/${id}/merge`, { categoryId });
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+
+  rejectCategorySuggestion: async (id: string, note?: string): Promise<void> => {
+    try {
+      await apiClient.post(`/admin/category-suggestions/${id}/reject`, { note });
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
+
 };

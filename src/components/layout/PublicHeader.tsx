@@ -98,7 +98,7 @@ export default function PublicHeader() {
 
       {/* Menu mobile plein écran */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-1300 animate-fade-in bg-(--bg-surface) lg:hidden">
+        <div className="fixed inset-0 z-1300 animate-fade-in bg-surface! lg:hidden">
           <div className="flex h-16 items-center justify-between px-4">
             <span className="font-heading text-xl font-bold text-primary-500">
               MboaPro
@@ -110,7 +110,7 @@ export default function PublicHeader() {
               <X size={22} />
             </button>
           </div>
-          <nav className="flex flex-col gap-1 px-4 py-4">
+          <nav className="flex flex-col gap-1 px-4 py-4 bg-surface">
             {publicNavLinks.map((link) => (
               <NavLink
                 key={link.to}
