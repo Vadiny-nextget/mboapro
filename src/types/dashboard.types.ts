@@ -7,6 +7,7 @@ export interface ContactRequestSummary {
   createdAt: string;
   serviceTitle: string;
   serviceSlug: string;
+  serviceId: string;
   serviceImage: string | null;
   personName: string;
   personAvatarUrl: string | null;

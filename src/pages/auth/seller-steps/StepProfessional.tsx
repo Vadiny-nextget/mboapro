@@ -80,7 +80,8 @@ export default function StepProfessional({
       setSession(session);
       reset(); // vide le wizard : plus rien à reprendre après un compte créé avec succès
       onComplete?.();
-      navigate('/prestataire/prestations/nouveau');
+      // navigate('/prestataire/prestations/nouveau');
+      navigate('/prestataire/activation-paiement');
     } catch (err) {
       const apiError = err as ApiError;
       if (apiError.fieldErrors) setErrors(apiError.fieldErrors);
@@ -131,14 +132,14 @@ export default function StepProfessional({
       <div className="flex gap-3">
         <Button
           type="button"
-          handleClick={prevStep}
+          onClick={prevStep}
           className="flex-1 justify-center border border-subtle bg-transparent text-primary"
         >
           Retour
         </Button>
         <Button
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
           loading={isSubmitting}
           disabled={isSubmitting}
           backgroundColor="var(--color-primary-500)"

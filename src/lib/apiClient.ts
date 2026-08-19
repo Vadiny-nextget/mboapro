@@ -6,6 +6,7 @@ export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:9091/api/v1',
   // baseURL: import.meta.env.VITE_API_URL_HOST ?? 'http://192.168.100.27:9091/api/v1',
   timeout: 15000,
+  withCredentials: true, // Envoie/recoit le cookie httpOnly sur chaque requete
 });
 
 // ---- Attache le JWT d'accès sur chaque requête sortante ----------
@@ -34,12 +35,12 @@ apiClient.interceptors.response.use(
     const isAuthEndpoint = originalRequest?.url?.includes('/auth/login') || originalRequest?.url?.includes('/auth/refresh');
 
     if (isUnauthorized && originalRequest && !originalRequest._retry && !isAuthEndpoint) {
-      const refreshToken = useAuthStore.getState().refreshToken;
+      // const refreshToken = useAuthStore.getState().refreshToken;
 
-      if (!refreshToken) {
-        useAuthStore.getState().logout();
-        return Promise.reject(toApiError(error));
-      }
+      // if (!refreshToken) {
+      //   useAuthStore.getState().logout();
+      //   return Promise.reject(toApiError(error));
+      // }
 
       if (isRefreshing) {
         // Une requête de refresh est déjà en cours : on met celle-ci en file d'attente
@@ -55,7 +56,7 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await axios.post(`${apiClient.defaults.baseURL}/auth/refresh`, { refreshToken });
+        const { data } = await axios.post(`${apiClient.defaults.baseURL}/auth/refresh`, {}, {withCredentials:true});
         const newAccessToken: string = data.data.accessToken;
 
         useAuthStore.getState().setAccessToken(newAccessToken);
@@ -90,10 +91,9 @@ export function toApiError(error: unknown): ApiError {
       const meta = payload?.errors && 'secondsRemaining' in (payload.errors as object)
         ? (payload.errors as Record<string, unknown>)
         : null;
-
       return new ApiError(payload?.message ?? 'Une erreur est survenue.', error.response.status, fieldErrors, meta);
     }
-    return new ApiError('Impossible de contacter le serveur. Vérifiez votre connexion.', 0);
+    return new ApiError('Impossible de contacter le serveur. Vérifiez votre connexion.', error.status||500);
   }
-  return new ApiError(error?.message??'Une erreur inattendue est survenue.', 0);
+  return new ApiError(error?.message??'Une erreur inattendue est survenue.', error.status||500);
 }

@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
         <h1 className="font-heading text-lg font-bold text-primary">Mot de passe réinitialisé</h1>
         <p className="text-sm text-secondary">Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.</p>
         <Button
-          handleClick={() => navigate('/connexion')}
+          onClick={() => navigate('/connexion')}
           backgroundColor="var(--color-primary-500)"
           className="mt-2 justify-center text-white"
         >
@@ -101,7 +101,7 @@ export default function ForgotPasswordPage() {
         <InputOtp value={otp} onChange={setOtp} error={error} disabled={isLoading} />
         <Button
           loading={isLoading}
-          handleClick={handleVerifyOtp}
+          onClick={handleVerifyOtp}
           backgroundColor="var(--color-primary-500)"
           className="justify-center text-white"
         >
@@ -115,10 +115,12 @@ export default function ForgotPasswordPage() {
     return (
       <form className="flex flex-col gap-4">
         <h1 className="font-heading text-lg font-bold text-primary">Nouveau mot de passe</h1>
-        <Input id="newPassword" type="password" label="Nouveau mot de passe" Icon={Lock} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-        <Input id="confirmNewPassword" type="password" label="Confirmer le mot de passe" Icon={Lock} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <Input id="newPassword" type="password"
+          css="max-w-full!" label="Nouveau mot de passe" Icon={Lock} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+        <Input id="confirmNewPassword"
+          css="max-w-full!" type="password" label="Confirmer le mot de passe" Icon={Lock} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         {error && <p className="text-sm text-danger">{error}</p>}
-        <Button type="submit" handleClick={handleReset} loading={isLoading} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
+        <Button type="submit" onClick={handleReset} loading={isLoading} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
           Réinitialiser
         </Button>
       </form>
@@ -129,9 +131,10 @@ export default function ForgotPasswordPage() {
     <form className="flex flex-col gap-4">
       <h1 className="font-heading text-lg font-bold text-primary">Mot de passe oublié</h1>
       <p className="text-sm text-secondary">Recevez un code pour réinitialiser votre mot de passe.</p>
-      <Input id="forgot-identifier" label="Email ou téléphone" Icon={Mail} value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
+      <Input id="forgot-identifier" 
+          css="max-w-full!" label="Email ou téléphone" Icon={Mail} value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
       {error && <p className="text-sm text-danger">{error}</p>}
-      <Button type="submit" handleClick={handleSendCode} loading={isLoading} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
+      <Button type="submit" onClick={handleSendCode} loading={isLoading} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
         Envoyer le code
       </Button>
       <p className="text-center text-sm text-secondary">

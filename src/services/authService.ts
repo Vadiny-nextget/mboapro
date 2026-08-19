@@ -55,7 +55,7 @@ export const authService = {
   verifyLogin2fa: (identifier: string, code: string) =>
     unwrap<AuthSession>(apiClient.post('/auth/login/2fa/verify', { identifier, code })),
 
-  logout: (refreshToken: string) => unwrap<null>(apiClient.post('/auth/logout', { refreshToken })),
+  logout: () => unwrap<null>(apiClient.post('/auth/logout')),
 
   forgotPassword: (identifier: string) =>
     unwrap<null>(apiClient.post('/auth/password/forgot', { identifier })),

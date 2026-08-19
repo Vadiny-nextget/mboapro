@@ -67,6 +67,7 @@ export default function ForgotPasswordPage() {
           label={`Email`}
           id="email"
           type="email"
+          css="max-w-full!"
           value={registerViewModel.email}
           required
           onChange={(e) => {
@@ -79,7 +80,7 @@ export default function ForgotPasswordPage() {
           error={errors.email}
           placeholder="vous@exemple.com"
         />
-        <Button type="submit" handleClick={handleSubmit}>
+        <Button type="submit" onClick={handleSubmit}>
           Recevoir le code
         </Button>
       </form>

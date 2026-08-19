@@ -59,3 +59,5 @@ export const formatDateWithHour = (timeAsString?: string) => {
   return `${d}/${m}/${y} à ${hh}:${min}`;
 };
 
+
+export const formatFCFA = (amount: number) => new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';

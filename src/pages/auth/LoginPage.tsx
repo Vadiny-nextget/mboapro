@@ -179,7 +179,7 @@ export default function LoginPage() {
         </div>
         {error && <p className="text-sm text-danger">{error}</p>}
 
-        <Button type="submit" handleClick={handleSubmit} loading={isLoading}>
+        <Button type="submit" onClick={handleSubmit} loading={isLoading}>
           Se connecter
         </Button>
       </form>

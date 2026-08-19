@@ -88,7 +88,7 @@ export default function MyProfilePageClient() {
     <div className="mx-auto max-w-lg">
       <h1 className="mb-6 font-heading text-xl font-bold text-primary">Mon profil</h1>
 
-      <form onSubmit={handleProfileSubmit} className="flex flex-col gap-4 rounded-lg border border-subtle bg-surface p-6">
+      <form className="flex flex-col gap-4 rounded-lg border border-subtle bg-surface p-6">
         <div className="flex items-center gap-4">
           <Avatar src={authUser?.avatarUrl ?? undefined} name={`${firstName} ${lastName}`} size="lg" />
           <div className="flex-1">
@@ -116,17 +116,17 @@ export default function MyProfilePageClient() {
         {profileError && <p className="text-sm text-danger">{profileError}</p>}
         {profileSuccess && <p className="text-sm text-success">Profil mis à jour avec succès.</p>}
 
-        <Button type="submit" loading={isSaving} backgroundColor="var(--color-primary-500)" className="justify-center text-white">Enregistrer</Button>
+        <Button type="submit" onClick={handleProfileSubmit} loading={isSaving} backgroundColor="var(--color-primary-500)" className="justify-center text-white">Enregistrer</Button>
       </form>
 
-      <form onSubmit={handlePasswordSubmit} className="mt-6 flex flex-col gap-4 rounded-lg border border-subtle bg-surface p-6">
+      <form className="mt-6 flex flex-col gap-4 rounded-lg border border-subtle bg-surface p-6">
         <h2 className="font-heading text-lg font-bold text-primary">Mot de passe</h2>
         <Input id="current-password" type="password" label="Mot de passe actuel (si déjà défini)" Icon={Lock} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
         <Input id="new-password" type="password" label="Nouveau mot de passe" Icon={Lock} value={newPassword} error={passwordErrors.newPassword} onChange={(e) => setNewPassword(e.target.value)} />
         <Input id="confirm-new-password" type="password" label="Confirmer" Icon={Lock} value={confirmPassword} error={passwordErrors.confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         {passwordErrors.currentPassword && <p className="text-sm text-danger">{passwordErrors.currentPassword}</p>}
         {passwordSuccess && <p className="text-sm text-success">Mot de passe mis à jour.</p>}
-        <Button type="submit" loading={isChangingPassword} backgroundColor="var(--color-primary-500)" className="justify-center text-white">Changer le mot de passe</Button>
+        <Button type="submit" onClick={handlePasswordSubmit} loading={isChangingPassword} backgroundColor="var(--color-primary-500)" className="justify-center text-white">Changer le mot de passe</Button>
       </form>
     </div>
   );

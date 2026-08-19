@@ -135,13 +135,13 @@ export default function StepClientPersonalInfo() {
       <div className="flex gap-3">
         <Button
           type="button"
-          handleClick={prevStep}
+          onClick={prevStep}
           className="flex-1 justify-center border border-subtle bg-transparent text-primary"
         >
           Retour
         </Button>
         <Button
-          type="submit" handleClick={handleSubmit}
+          type="submit" onClick={handleSubmit}
           loading={isSubmitting}
           backgroundColor="var(--color-primary-500)"
           className="flex-1 justify-center text-white"

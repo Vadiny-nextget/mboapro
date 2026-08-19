@@ -83,7 +83,7 @@ export default function HomePage() {
             />
             <Button
               type="submit"
-              handleClick={(e) => {
+              onClick={(e) => {
                 e.preventDefault();
                 window.location.href = `/services?q=${encodeURIComponent(searchQuery)}`;
               }}

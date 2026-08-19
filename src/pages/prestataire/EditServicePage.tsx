@@ -121,7 +121,7 @@ export default function EditServicePage() {
         La catégorie ne peut pas être modifiée après publication.
       </p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4">
         <Input
           id="edit-title"
           label="Titre du service"
@@ -241,13 +241,14 @@ export default function EditServicePage() {
         <div className="flex gap-3">
           <Button
             type="button"
-            handleClick={() => navigate("/prestataire/prestations")}
+            onClick={() => navigate("/prestataire/prestations")}
             className="flex-1 justify-center border border-subtle bg-transparent text-primary"
           >
             Annuler
           </Button>
           <Button
             type="submit"
+            onClick={handleSubmit}
             loading={isSubmitting}
             backgroundColor="var(--color-primary-500)"
             className="flex-1 justify-center text-white"

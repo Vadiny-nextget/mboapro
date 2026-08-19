@@ -58,7 +58,7 @@ export default function Login2FAPage() {
       <Button
         type="button"
         loading={isLoading}
-        handleClick={handleVerify}
+        onClick={handleVerify}
         backgroundColor="var(--color-primary-500)"
         className="justify-center text-white"
       >

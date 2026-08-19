@@ -37,10 +37,15 @@ import AdminUsersPage from "../pages/admin/AdminUsersPage";
 import ReviewsPage from "../pages/prestataire/ReviewsPage";
 import EarningsPage from "../pages/prestataire/EarningsPage";
 import MyProfilePagePrestataire from "../pages/prestataire/MyProfilePage";
-import MyProfilePageClient  from "../pages/client/MyProfilePage";
+import MyProfilePageClient from "../pages/client/MyProfilePage";
 import MissionsPage from "../pages/client/MissionsPage";
 import FavoritesPage from "../pages/client/FavoritesPage";
 import AdminCategorySuggestionsPage from "../pages/admin/AdminCategorySuggestionsPage";
+import OrdersPage from "../pages/prestataire/OrdersPage";
+import ActivationReturnPage from "../pages/prestataire/ActivationReturnPage";
+import ActivationPaymentPage from "../pages/prestataire/ActivationPaymentPage";
+import ClientDiscussionsPage from "../pages/client/DiscussionsPage";
+import ProviderDiscussionsPage from "../pages/prestataire/DiscussionsPage";
 
 export const router = createBrowserRouter([
   {
@@ -87,9 +92,13 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <ClientDashboardHome /> },
               { path: "/client/messages", element: <MyContactRequestsPage /> },
-              { path: '/client/missions', element: <MissionsPage /> },
-{ path: '/client/favoris', element: <FavoritesPage /> },
-{ path: '/client/profil', element: <MyProfilePageClient /> },
+              { path: "/client/missions", element: <MissionsPage /> },
+              { path: "/client/favoris", element: <FavoritesPage /> },
+              { path: "/client/profil", element: <MyProfilePageClient /> },
+              {
+                path: "/client/discussions",
+                element: <ClientDiscussionsPage />,
+              },
             ],
           },
           { path: "/devenir-prestataire", element: <UpgradeToProviderPage /> },
@@ -116,10 +125,25 @@ export const router = createBrowserRouter([
                 path: "/prestataire/commandes",
                 element: <ReceivedContactRequestsPage />,
               },
-              { path: '/prestataire/avis', element: <ReviewsPage /> },
-{ path: '/prestataire/revenus', element: <EarningsPage /> },
-{ path: '/prestataire/profil', element: <MyProfilePagePrestataire /> }, // celui de src/pages/prestataire/
-
+              { path: "/prestataire/avis", element: <ReviewsPage /> },
+              { path: "/prestataire/revenus", element: <EarningsPage /> },
+              {
+                path: "/prestataire/profil",
+                element: <MyProfilePagePrestataire />,
+              },
+              {
+                path: "/prestataire/activation-paiement",
+                element: <ActivationPaymentPage />,
+              },
+              {
+                path: "/prestataire/activation-retour",
+                element: <ActivationReturnPage />,
+              },
+              { path: "/prestataire/commandes", element: <OrdersPage /> }, // remplace ReceivedContactRequestsPage seul, ou coexiste sur un sous-onglet
+              {
+                path: "/prestataire/discussions",
+                element: <ProviderDiscussionsPage />,
+              },
             ],
           },
         ],
@@ -135,7 +159,10 @@ export const router = createBrowserRouter([
               { path: "/admin/utilisateurs", element: <AdminUsersPage /> },
               { path: "/admin/prestataires", element: <AdminProvidersPage /> },
               { path: "/admin/categories", element: <AdminCategoriesPage /> },
-{ path: '/admin/suggestions-categories', element: <AdminCategorySuggestionsPage /> },
+              {
+                path: "/admin/suggestions-categories",
+                element: <AdminCategorySuggestionsPage />,
+              },
             ],
           },
         ],

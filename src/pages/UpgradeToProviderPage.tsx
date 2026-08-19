@@ -141,7 +141,7 @@ export default function UpgradeToProviderPage() {
 
         <Button
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
           loading={isSubmitting}
           backgroundColor="var(--color-primary-500)"
           className="justify-center text-white"

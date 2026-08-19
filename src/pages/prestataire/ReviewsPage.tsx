@@ -45,14 +45,13 @@ export default function ReviewsPage() {
       </div>
 
       {dashboard.stats.totalReviews === 0 && (
-        <div className="mb-6 flex items-start gap-3 rounded-lg border border-dashed border-subtle p-5">
-          <Star size={20} className="mt-0.5 shrink-0 text-muted" />
-          <p className="text-sm text-secondary">
-            Vous n'avez pas encore d'avis. Le système de collecte d'avis vérifiés (après mission réalisée) arrive
-            bientôt sur MboaPro — vos notes s'afficheront ici automatiquement une fois disponible.
-          </p>
-        </div>
-      )}
+  <div className="mb-6 flex items-start gap-3 rounded-lg border border-dashed border-subtle p-5">
+    <Star size={20} className="mt-0.5 shrink-0 text-muted" />
+    <p className="text-sm text-secondary">
+      Pas encore d'avis. Ils apparaîtront ici automatiquement dès qu'un client aura noté une mission terminée.
+    </p>
+  </div>
+)}
 
       <h2 className="mb-3 font-heading text-lg font-bold text-primary">Détail par service</h2>
       <div className="flex flex-col gap-2">

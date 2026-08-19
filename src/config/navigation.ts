@@ -13,6 +13,7 @@ import {
   Gavel,
   type LucideIcon,
   Lightbulb,
+  MessageCircleMore,
 } from 'lucide-react';
 import type { UserRole } from '../types/auth.types';
 
@@ -27,7 +28,8 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   client: [
     { label: 'Tableau de bord', to: '/client', icon: LayoutDashboard, end: true },
     { label: 'Mes missions', to: '/client/missions', icon: Briefcase },
-    { label: 'Messages', to: '/client/messages', icon: MessageSquare },
+    // { label: 'Discussions', to: '/client/messages', icon: MessageSquare },
+    { label: 'Messages', to: '/prestataire/discussions', icon: MessageCircleMore },
     { label: 'Favoris', to: '/client/favoris', icon: Heart },
     { label: 'Mon profil', to: '/client/profil', icon: User },
   ],
@@ -35,6 +37,7 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
     { label: 'Tableau de bord', to: '/prestataire', icon: LayoutDashboard, end: true },
     { label: 'Mes prestations', to: '/prestataire/prestations', icon: Briefcase },
     { label: 'Commandes', to: '/prestataire/commandes', icon: MessageSquare },
+    { label: 'Discussions', to: '/prestataire/discussions', icon: MessageCircleMore },
     { label: 'Avis & réputation', to: '/prestataire/avis', icon: Star },
     { label: 'Revenus', to: '/prestataire/revenus', icon: Wallet },
     { label: 'Mon profil', to: '/prestataire/profil', icon: User },

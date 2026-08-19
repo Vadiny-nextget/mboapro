@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MapPin, Globe, MessageCircle, ChevronRight } from "lucide-react";
+import { MapPin, Globe, MessageCircle, ChevronRight, MessageSquare } from "lucide-react";
 import Avatar from "../../components/ui/Avatar";
 import { VerifiedBadge } from "../../components/ui/Badge";
 import ReputationStars from "../../components/ui/ReputationStars";
@@ -14,9 +14,8 @@ import { Button } from "../../components/ui/Input";
 import { useAuthStore } from "../../store/useAuthStore";
 import ContactProviderModal from "../../components/ui/ContactProviderModal";
 import FavoriteButton from "../../components/ui/FavoriteButton";
-
-const formatFCFA = (amount: number) =>
-  new Intl.NumberFormat("fr-FR").format(amount) + " FCFA";
+import { formatFCFA } from "../../lib/text.func";
+import { messageService } from "../../services/messageService";
 
 const priceUnitSuffix: Record<Service["priceUnit"], string> = {
   fixed: "",
@@ -32,6 +31,7 @@ export default function ServiceDetailPage() {
   const [notFound, setNotFound] = useState(false);
   const currentUser = useAuthStore((s) => s.user);
   const [showContactModal, setShowContactModal] = useState(false);
+const [reviews, setReviews] = useState<Array<{ id: string; rating: number; comment: string | null; first_name: string; last_name: string; created_at: string }>>([]);
 
   const isOwnService = currentUser?.id === service?.provider.userId;
 
@@ -42,6 +42,15 @@ export default function ServiceDetailPage() {
     }
     setShowContactModal(true);
   };
+  
+const handleStartConversation = async () => {
+  if (!currentUser) {
+    navigate('/connexion', { state: { from: window.location.pathname } });
+    return;
+  }
+  const conversation = await messageService.startConversation(service?.id);
+  navigate('/client/discussions', { state: { openConversationId: conversation.id } });
+};
 
   useEffect(() => {
     if (!slug) return;
@@ -50,12 +59,14 @@ export default function ServiceDetailPage() {
 
     catalogService
       .getServiceBySlug(slug)
-      // .then((data) => {
-      //   setService(data);
-      //   return catalogService.getServicesByProvider(data.provider.userId);
-      // })
+      .then((data) => {
+        setService(data);
+        
+catalogService.getServiceReviews(data.id).then(setReviews);
+        return catalogService.getServicesByProvider(data.provider.userId);
+      })
       // .then((all) => setOtherServices(all.filter((s) => s.slug !== slug).slice(0, 3)))
-      .then(setService)
+      // .then(setService)
       .catch((err) => {
         if ((err as ApiError).status === 404) setNotFound(true);
       })
@@ -162,14 +173,25 @@ export default function ServiceDetailPage() {
           )}
 
           {/* Avis — en attente du module Reviews */}
-          <div>
-            <h2 className="mb-2 font-heading text-lg font-bold text-primary">
-              Avis clients
-            </h2>
-            <p className="text-sm text-muted">
-              Le système d'avis vérifiés arrive bientôt.
-            </p>
+          
+<div>
+  <h2 className="mb-2 font-heading text-lg font-bold text-primary">Avis clients ({reviews.length})</h2>
+  {reviews.length === 0 ? (
+    <p className="text-sm text-muted">Aucun avis pour l'instant.</p>
+  ) : (
+    <div className="flex flex-col gap-3">
+      {reviews.map((r) => (
+        <div key={r.id} className="rounded-lg border border-subtle bg-surface p-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-primary">{r.first_name} {r.last_name}</p>
+            <ReputationStars rating={r.rating} size={13} showValue={false} />
           </div>
+          {r.comment && <p className="mt-1 text-sm text-secondary">{r.comment}</p>}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
         </div>
 
         {/* Colonne latérale sticky */}
@@ -201,6 +223,11 @@ export default function ServiceDetailPage() {
                   : "Contacter le prestataire"}
               </Button>
             )}
+            {!isOwnService && currentUser?.role === 'client' && (
+  <Button leftIcon={<MessageSquare size={16} />} onClick={handleStartConversation}>
+    Envoyer un message
+  </Button>
+)}
             {currentUser?.role === 'client' && <FavoriteButton serviceId={service.id} />}
 
             <hr className="border-subtle" />

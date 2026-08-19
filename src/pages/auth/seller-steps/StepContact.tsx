@@ -65,13 +65,13 @@ export default function StepContact() {
       {/* Switch email / téléphone */}
       <div className="grid grid-cols-2 gap-2 rounded-lg bg-surface-alt p-1">
         <Button
-          handleClick={() => switchMode("email")}
+          onClick={() => switchMode("email")}
           className={`justify-center text-inherit ${mode === "email" ? "bg-(--surface-glass)/50!" : "bg-(--surface-glass)/15!"}`}
         >
           <Mail size={15} /> Email
         </Button>
         <Button
-          handleClick={() => switchMode("phone")}
+          onClick={() => switchMode("phone")}
           className={`justify-center text-inherit ${mode === "phone" ? "bg-(--surface-glass)/50!" : "bg-(--surface-glass)/15!"}`}
         >
           <Phone size={15} /> Téléphone
@@ -137,7 +137,7 @@ export default function StepContact() {
       />
       <Button
         type="submit"
-        handleClick={handleSubmit}
+        onClick={handleSubmit}
         backgroundColor="var(--color-primary-500)"
         className="justify-center text-white"
         loading={isSubmitting}

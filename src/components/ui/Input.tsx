@@ -479,14 +479,14 @@ export const Button = ({
   disabled = false,
   leftIcon,
   rightIcon,
-  handleClick,
+  onClick,
   ...props
 }: ButtonProps) => {
   return (
     <button
       onClick={(e) => {
         e.preventDefault();
-        handleClick?.(e);
+        onClick?.(e);
       }}
       className={`h-10 flex items-center justify-center px-4 text-sm gap-2 rounded-md bg-primary-500 text-on-primary hover:opacity-80 active:bg-primary-700 shadow-sm disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-primary-500 font-semibold transition-all duration-150 ${className} ${disabled || loading ? "opacity-60" : "hover:scale-105 active:scale-95 cursor-pointer"}`}
       disabled={disabled || loading}

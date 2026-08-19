@@ -138,7 +138,7 @@ export default function RegisterPage() {
       </div>
 
       <Button
-        handleClick={handleContinue}
+        onClick={handleContinue}
         backgroundColor="var(--color-primary-500)"
         className="mt-6 w-full justify-center text-white"
       >
@@ -250,7 +250,7 @@ export default function RegisterPage() {
             placeholder="••••••••"
           />
         </div>
-        <Button type="submit" handleClick={handleSubmit}>
+        <Button type="submit" onClick={handleSubmit}>
           Créer mon compte
         </Button>
       </form>

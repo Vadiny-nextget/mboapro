@@ -30,7 +30,7 @@ export default function ContactProviderModal({ serviceId, serviceTitle, onClose 
   };
 
   return (
-    <div className="fixed inset-0 z-[1300] flex items-center justify-center bg-gray-950/50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-1300 flex items-center justify-center bg-gray-950/50 p-4" onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="animate-scale-in w-full max-w-md rounded-lg bg-surface p-6 shadow-lg">
         <div className="mb-4 flex items-start justify-between">
           <div>
@@ -68,7 +68,7 @@ export default function ContactProviderModal({ serviceId, serviceTitle, onClose 
           <div className="flex flex-col gap-3">
             <textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message optionnel : décrivez votre besoin, vos disponibilités..." className="w-full rounded-md border border-subtle bg-surface p-3 text-sm text-primary outline-none focus:border-primary-500" />
             {error && <p className="text-sm text-danger">{error}</p>}
-            <Button loading={isSubmitting} handleClick={handleReveal} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
+            <Button loading={isSubmitting} onClick={handleReveal} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
               Voir les coordonnées
             </Button>
           </div>

@@ -6,9 +6,7 @@ import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import { catalogService } from "../../services/catalogService";
 import { useAuthStore } from "../../store/useAuthStore";
 import type { Service, ServiceAvailability } from "../../types/catalog.types";
-
-const formatFCFA = (amount: number) =>
-  new Intl.NumberFormat("fr-FR").format(amount) + " FCFA";
+import { formatFCFA } from "../../lib/text.func";
 
 const AVAILABILITY_OPTIONS: { value: ServiceAvailability; label: string }[] = [
   { value: "available", label: "Disponible" },

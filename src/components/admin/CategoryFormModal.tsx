@@ -37,6 +37,8 @@ export default function CategoryFormModal({ category, onClose, onSaved }: Catego
       fd.append('icon', icon);
       if (image) fd.append('image', image);
 
+      console.log("FormData :: ", fd)
+
       const saved = isEditing
         ? await adminService.updateCategory(category!.id, fd)
         : await adminService.createCategory(fd);
@@ -50,7 +52,7 @@ export default function CategoryFormModal({ category, onClose, onSaved }: Catego
   };
 
   return (
-    <div className="fixed inset-0 z-[1300] flex items-center justify-center bg-gray-950/50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-1300 flex items-center justify-center bg-gray-950/50 p-4" onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="animate-scale-in w-full max-w-md rounded-lg bg-surface p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-heading text-lg font-bold text-primary">
@@ -61,7 +63,7 @@ export default function CategoryFormModal({ category, onClose, onSaved }: Catego
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-sm">Titre</label>
             <input
@@ -104,7 +106,7 @@ export default function CategoryFormModal({ category, onClose, onSaved }: Catego
 
           {error && <p className="text-sm text-danger">{error}</p>}
 
-          <Button type="submit" loading={isSubmitting} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
+          <Button type="submit" onClick={handleSubmit} loading={isSubmitting} backgroundColor="var(--color-primary-500)" className="justify-center text-white">
             {isEditing ? 'Enregistrer' : 'Créer la catégorie'}
           </Button>
         </form>

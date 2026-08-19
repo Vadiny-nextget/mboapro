@@ -10,7 +10,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode;
   backgroundColor?: string;
   children: React.ReactNode;
-  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -133,7 +133,7 @@ export default function StepClientContact() {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <Button
-        type="submit" handleClick={handleSubmit}
+        type="submit" onClick={handleSubmit}
         loading={isSubmitting}
         backgroundColor="var(--color-primary-500)"
         className="justify-center text-white"

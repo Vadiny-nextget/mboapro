@@ -1,6 +1,9 @@
 import type { PendingProvider } from '../types/admin.types';
 import type { Service, Category, ProviderProfile } from '../types/catalog.types';
 import type { ContactRequestSummary } from '../types/dashboard.types';
+import type { ConversationSummary, Message } from '../types/message.types';
+import type { AppNotification } from '../types/notification.types';
+import type { Order } from '../types/order.types';
 
 export function normalizeCategory(raw: any): Category {
   return {
@@ -72,6 +75,7 @@ export function normalizeContactRequest(raw: any): ContactRequestSummary {
     createdAt: raw.created_at,
     serviceTitle: raw.service_title,
     serviceSlug: raw.service_slug,
+    serviceId: raw.service_id,
     serviceImage: Array.isArray(raw.images) ? raw.images[0] ?? null : null,
     personName: `${raw.first_name} ${raw.last_name}`.trim(),
     personAvatarUrl: raw.avatar_url,
@@ -91,6 +95,61 @@ export function normalizePendingProvider(raw: any): PendingProvider {
     region: raw.region,
     yearsExperience: Number(raw.years_experience),
     registeredAt: raw.registered_at,
+  };
+}
+
+export function normalizeOrder(raw: any): Order {
+  return {
+    id: raw.id,
+    serviceTitle: raw.service_title,
+    serviceSlug: raw.service_slug,
+    agreedPrice: Number(raw.agreed_price),
+    status: raw.status,
+    notes: raw.notes,
+    cancellationReason: raw.cancellation_reason,
+    clientName: `${raw.client_first_name} ${raw.client_last_name}`.trim(),
+    clientAvatarUrl: raw.client_avatar_url,
+    providerName: `${raw.provider_first_name} ${raw.provider_last_name}`.trim(),
+    providerAvatarUrl: raw.provider_avatar_url,
+    hasReview: Boolean(raw.has_review),
+    createdAt: raw.created_at,
+    completedAt: raw.completed_at,
+  };
+}
+
+export function normalizeConversation(raw: any): ConversationSummary {
+  return {
+    id: raw.id,
+    otherUserId: raw.other_user_id,
+    otherUserName: `${raw.other_first_name} ${raw.other_last_name}`.trim(),
+    otherUserAvatarUrl: raw.other_avatar_url,
+    contextServiceTitle: raw.context_service_title,
+    lastMessagePreview: raw.last_message_preview,
+    lastMessageAt: raw.last_message_at,
+    unreadCount: Number(raw.unread_count),
+  };
+}
+
+export function normalizeMessage(raw: any): Message {
+  return {
+    id: raw.id,
+    conversationId: raw.conversation_id,
+    senderId: raw.sender_id,
+    body: raw.body,
+    createdAt: raw.created_at,
+    readAt: raw.read_at,
+  };
+}
+
+export function normalizeNotification(raw: any): AppNotification {
+  return {
+    id: raw.id,
+    type: raw.type,
+    title: raw.title,
+    body: raw.body,
+    data: raw.data ?? {},
+    isRead: raw.is_read,
+    createdAt: raw.created_at,
   };
 }
 

@@ -4,6 +4,7 @@ import Avatar from './Avatar';
 import { Badge, VerifiedBadge } from './Badge';
 import ReputationStars from './ReputationStars';
 import type { Service } from '../../types/catalog.types';
+import { formatFCFA } from '../../lib/text.func';
 
 // export interface Provider {
 //   id: string;
@@ -25,8 +26,6 @@ import type { Service } from '../../types/catalog.types';
 // interface ProviderCardProps {
 //   provider: Provider;
 // }
-
-const formatFCFA = (amount: number) => new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
 
 const priceLabel: Record<Service['priceUnit'], string> = {
   fixed: '',

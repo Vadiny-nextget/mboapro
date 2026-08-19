@@ -152,14 +152,14 @@ export default function StepPersonalInfo() {
       <div className="flex gap-3">
         <Button
           type="button"
-          handleClick={prevStep}
+          onClick={prevStep}
           className="flex-1 justify-center border border-subtle bg-transparent text-primary"
         >
           Retour
         </Button>
         <Button
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
           backgroundColor="var(--color-primary-500)"
           className="flex-1 justify-center text-white"
         >

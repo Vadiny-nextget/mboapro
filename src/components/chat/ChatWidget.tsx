@@ -5,14 +5,13 @@ import ReputationStars from '../ui/ReputationStars';
 import { chatService } from '../../services/chatService';
 import { ApiError } from '../../types/api.types';
 import type { ChatMessage } from '../../types/chat.types';
+import { formatFCFA } from '../../lib/text.func';
 
 const WELCOME_MESSAGE: ChatMessage = {
   id: 'welcome',
   role: 'assistant',
   text: 'Bonjour 👋 Décrivez-moi ce dont vous avez besoin (ex: "un plombier à Douala") et je cherche pour vous.',
 };
-
-const formatFCFA = (amount: number) => new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,13 +60,13 @@ export default function ChatWidget() {
       <button
         onClick={() => setIsOpen((v) => !v)}
         aria-label="Ouvrir l'assistant MboaPro"
-        className="fixed bottom-5 right-5 z-[1400] flex h-14 w-14 items-center justify-center rounded-full bg-primary-500 text-white shadow-lg transition-transform hover:scale-105"
+        className="fixed bottom-5 right-5 z-1400 flex h-14 w-14 items-center justify-center rounded-full bg-primary-500 text-white shadow-lg transition-transform hover:scale-105"
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
 
       {isOpen && (
-        <div className="animate-scale-in fixed bottom-24 right-5 z-[1400] flex h-[32rem] w-[22rem] flex-col overflow-hidden rounded-2xl border border-subtle bg-surface shadow-lg sm:w-96">
+        <div className="animate-scale-in fixed bottom-24 right-5 z-1400 flex h-128 w-88 flex-col overflow-hidden rounded-2xl border border-subtle bg-surface shadow-lg sm:w-96">
           <div className="flex items-center justify-between border-b border-subtle bg-primary-500 px-4 py-3">
             <div>
               <p className="text-sm font-semibold text-white">Assistant MboaPro</p>

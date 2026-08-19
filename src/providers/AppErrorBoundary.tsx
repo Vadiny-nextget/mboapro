@@ -26,10 +26,10 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       </p>
 
       <div className="mt-2 flex gap-3">
-        <Button className='border! border-strong! text-primary! bg-transparent! hover:bg-surface-alt!' handleClick={resetErrorBoundary}>
+        <Button className='border! border-strong! text-primary! bg-transparent! hover:bg-surface-alt!' onClick={resetErrorBoundary}>
           <RotateCcw size={16} />{t('errors.retry', 'Réessayer')}
         </Button>
-        <Button handleClick={() => (window.location.href = '/')}>
+        <Button onClick={() => (window.location.href = '/')}>
           <Home size={16} />{t('errors.backHome', 'Retour à l\u2019accueil')}
         </Button>
       </div>

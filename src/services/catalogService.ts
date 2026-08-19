@@ -71,6 +71,14 @@ export const catalogService = {
       throw toApiError(err);
     }
   },
+  getServiceReviews: async (serviceId: string) => {
+    try {
+      const { data } = await apiClient.get(`/services/${serviceId}/reviews`);
+      return data.data;
+    } catch (err) {
+      throw toApiError(err);
+    }
+  },
 
   createService: async (formData: FormData): Promise<Service> => {
     try {
