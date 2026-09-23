@@ -5,6 +5,7 @@ import type { Order, OrderStatus } from '../../types/order.types';
 import { formatFCFA } from '../../lib/text.func';
 import { Link } from 'react-router-dom';
 import { Eye } from 'lucide-react';
+import OrderDetailModal from '../../components/ui/OrderDetailModal';
 
 // const NEXT_STATUS: Partial<Record<OrderStatus, OrderStatus>> = {
 //   confirmed: 'in_progress',

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConversationList from "../../components/messaging/ConversationList";
 import ConversationThread from "../../components/messaging/ConversationThread";
 import { messageService } from "../../services/messageService";
@@ -12,9 +12,16 @@ export default function ProviderDiscussionsPage() {
   const openConversationId =
     (location.state as { openConversationId?: string })?.openConversationId ??
     "";
+      const scrollRef = useRef<HTMLDivElement>(null);
+    
+      useEffect(() => {
+        scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+      }, []);
+    
 
   useEffect(() => {
     setActiveId(openConversationId);
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [openConversationId]);
 
   useEffect(() => {

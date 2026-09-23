@@ -38,7 +38,7 @@ export default function ChatWidget() {
       const result = await chatService.sendMessage(text);
       setMessages((prev) => [
         ...prev,
-        { id: crypto.randomUUID(), role: 'assistant', text: result.reply, suggestedServices: result.suggestedServices },
+        { id: crypto.randomUUID(), role: 'assistant', text: result.reply, suggestedServices: result?.suggestedServices },
       ]);
     } catch (err) {
       setMessages((prev) => [
@@ -72,7 +72,7 @@ export default function ChatWidget() {
               <p className="text-sm font-semibold text-white">Assistant MboaPro</p>
               <p className="text-xs text-primary-100">Trouvez un prestataire en quelques mots</p>
             </div>
-            <button onClick={handleReset} aria-label="Nouvelle conversation" className="text-white/80 hover:text-white">
+            <button onClick={handleReset} aria-label="Nouvelle conversation" className="text-white/80 hover:text-white cursor-pointer">
               <RotateCcw size={16} />
             </button>
           </div>
@@ -95,8 +95,8 @@ export default function ChatWidget() {
                           <p className="text-xs font-semibold">{s.title}</p>
                           <p className="text-[11px] text-muted">{s.first_name} {s.last_name} · {s.city}</p>
                           <div className="mt-1 flex items-center justify-between">
-                            <ReputationStars rating={s.rating} size={11} showValue={false} />
-                            <span className="text-xs font-semibold text-primary-500">{formatFCFA(s.price)}</span>
+                            <ReputationStars rating={Number(s.rating)} size={11} showValue={false} />
+                            <span className="text-xs font-semibold text-primary-500">{formatFCFA(Number(s.price))}</span>
                           </div>
                         </Link>
                       ))}

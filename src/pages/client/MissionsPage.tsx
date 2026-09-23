@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Briefcase, Eye, MessageSquare, Star } from "lucide-react";
+import { Eye, MessageSquare, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Order } from "../../types/order.types";
 import { orderService } from "../../services/orderService";
@@ -21,9 +21,11 @@ export default function MissionsPage() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  console.log("orders :: ", orders);
+
   return (
     <div>
-      <h1 className="mb-1 font-heading text-xl font-bold text-primary">
+      {/* <h1 className="mb-1 font-heading text-xl font-bold text-primary">
         Mes missions
       </h1>
       <p className="mb-6 text-sm text-secondary">
@@ -45,9 +47,9 @@ export default function MissionsPage() {
           to="/client/messages"
           className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary-500 hover:underline"
         >
-          <MessageSquare size={14} /> Voir mes messages
+          <MessageSquare size={14} /> Voir mes demandes
         </Link>
-      </div>
+      </div> */}
 
       <h1 className="mb-1 font-heading text-xl font-bold text-primary">
         Mes missions
@@ -66,6 +68,12 @@ export default function MissionsPage() {
         <p className="rounded-lg border border-dashed border-subtle p-10 text-center text-sm text-secondary">
           Aucune mission confirmée pour l'instant. Contactez un prestataire pour
           démarrer.
+          <Link
+            to="/client/messages"
+            className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary-500 hover:underline"
+          >
+            <MessageSquare size={14} /> Voir mes demandes
+          </Link>
         </p>
       ) : (
         <div className="flex flex-col gap-3">
@@ -89,14 +97,19 @@ export default function MissionsPage() {
                   <Eye size={15} />
                 </button>
                 <OrderStatusBadge status={order.status} />
-                {order.status === "completed" && !order.hasReview && (
-                  <button
-                    onClick={() => setReviewingOrder(order)}
-                    className="flex items-center gap-1 rounded-md bg-accent-500 px-3 py-1.5 text-xs font-semibold text-gray-900"
-                  >
-                    <Star size={13} /> Laisser un avis
-                  </button>
-                )}
+                {order.status === "completed" &&
+                  (!order.hasReview ? (
+                    <button
+                      onClick={() => setReviewingOrder(order)}
+                      className="flex items-center gap-1 rounded-md bg-accent-500 px-3 py-1.5 text-xs font-semibold text-gray-900"
+                    >
+                      <Star size={13} /> Laisser un avis
+                    </button>
+                  ) : (
+                    <span className="flex items-center gap-1 italic rounded-md text-accent-500 px-3 py-1.5 text-xs font-semibold">
+                      Vous avez déja noter cette prestation
+                    </span>
+                  ))}
               </div>
             </div>
           ))}

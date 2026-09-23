@@ -82,6 +82,17 @@ export default function ReceivedContactRequestsPage() {
               >
                 Convertir en commande
               </button>
+              {req.status === 'pending' && (
+  <button
+    onClick={async () => {
+      await dashboardService.updateContactRequestStatus(req.id, 'replied');
+      setRequests((prev) => prev.map((r) => (r.id === req.id ? { ...r, status: 'replied' } : r)));
+    }}
+    className="text-xs font-medium text-primary-500 hover:underline"
+  >
+    Marquer comme répondu
+  </button>
+)}
             </div>
           ))}
         </div>

@@ -121,10 +121,10 @@ export const router = createBrowserRouter([
                 path: "/prestataire/prestations/:slug/modifier",
                 element: <EditServicePage />,
               },
-              {
-                path: "/prestataire/commandes",
-                element: <ReceivedContactRequestsPage />,
-              },
+              // {
+              //   path: "/prestataire/commandes",
+              //   element: <ReceivedContactRequestsPage />,
+              // },
               { path: "/prestataire/avis", element: <ReviewsPage /> },
               { path: "/prestataire/revenus", element: <EarningsPage /> },
               {

@@ -6,7 +6,7 @@ import { useNotificationStore } from '../../store/useNotificationStore';
 import { useAuthStore } from '../../store/useAuthStore';
 
 const formatRelative = (iso: string) => {
-  const diffMin = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  const diffMin = Math.floor((Date.now() - new Date(iso??"").getTime()) / 60000);
   if (diffMin < 1) return 'à l\u2019instant';
   if (diffMin < 60) return `il y a ${diffMin}min`;
   return `il y a ${Math.floor(diffMin / 60)}h`;
@@ -53,7 +53,7 @@ export default function NotificationBell() {
                 <div key={n.id} className={`rounded-md p-3 text-sm ${!n.isRead ? 'bg-primary-50' : ''}`}>
                   <p className="font-medium text-primary">{n.title}</p>
                   {n.body && <p className="mt-0.5 text-xs text-secondary">{n.body}</p>}
-                  <p className="mt-1 text-[11px] text-muted">{formatRelative(n.createdAt)}</p>
+                  <p className="mt-1 text-[11px] text-muted italic">{formatRelative(n.createdAt)}</p>
                 </div>
               ))
             )}

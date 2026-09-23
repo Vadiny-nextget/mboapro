@@ -28,8 +28,8 @@ export const navigationByRole: Record<UserRole, NavItem[]> = {
   client: [
     { label: 'Tableau de bord', to: '/client', icon: LayoutDashboard, end: true },
     { label: 'Mes missions', to: '/client/missions', icon: Briefcase },
-    // { label: 'Discussions', to: '/client/messages', icon: MessageSquare },
-    { label: 'Messages', to: '/prestataire/discussions', icon: MessageCircleMore },
+    { label: 'Mes demandes', to: '/client/messages', icon: MessageSquare },
+    { label: 'Messages', to: '/client/discussions', icon: MessageCircleMore },
     { label: 'Favoris', to: '/client/favoris', icon: Heart },
     { label: 'Mon profil', to: '/client/profil', icon: User },
   ],

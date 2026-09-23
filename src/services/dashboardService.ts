@@ -44,4 +44,6 @@ export const dashboardService = {
       throw toApiError(err);
     }
   },
+  updateContactRequestStatus: (id: string, status: 'replied' | 'closed') =>
+  apiClient.patch(`/prestataire/contact-requests/${id}/status`, { status }),
 };

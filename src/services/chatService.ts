@@ -1,4 +1,5 @@
 import { apiClient, toApiError } from '../lib/apiClient';
+import type { SuggestedService } from '../types/chat.types';
 
 const SESSION_KEY = import.meta.env.VITE_API_SESSION_KEY??'mboapro-chat-session';
 
@@ -14,7 +15,7 @@ function getOrCreateSessionId(): string {
 export const chatService = {
   getSessionId: getOrCreateSessionId,
 
-  sendMessage: async (message: string): Promise<{ reply: string; suggestedServices: any[] }> => {
+  sendMessage: async (message: string): Promise<{ reply: string; suggestedServices: SuggestedService[] }> => {
     try {
       const { data } = await apiClient.post('/chat/message', {
         sessionId: getOrCreateSessionId(),

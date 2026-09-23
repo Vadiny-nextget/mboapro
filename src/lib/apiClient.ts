@@ -3,8 +3,8 @@ import { useAuthStore } from '../store/useAuthStore';
 import { ApiError, type ApiErrorPayload } from '../types/api.types';
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:9091/api/v1',
-  // baseURL: import.meta.env.VITE_API_URL_HOST ?? 'http://192.168.100.27:9091/api/v1',
+  // baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:9091/api/v1',
+  baseURL: import.meta.env.VITE_API_URL_HOST ?? 'http://api.mboapro.local/api/v1',
   timeout: 15000,
   withCredentials: true, // Envoie/recoit le cookie httpOnly sur chaque requete
 });

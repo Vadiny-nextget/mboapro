@@ -2,7 +2,7 @@ import Avatar from '../ui/Avatar';
 import type { ConversationSummary } from '../../types/message.types';
 
 const formatRelative = (iso: string) => {
-  const diffH = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000);
+  const diffH = Math.floor((Date.now() - new Date(iso??"").getTime()) / 3600000);
   if (diffH < 1) return 'à l\u2019instant';
   if (diffH < 24) return `${diffH}h`;
   return `${Math.floor(diffH / 24)}j`;
@@ -25,7 +25,7 @@ export default function ConversationList({ conversations, activeId, onSelect }: 
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between">
               <p className="truncate text-sm font-medium text-primary">{c.otherUserName}</p>
-              <span className="shrink-0 text-[11px] text-muted">{formatRelative(c.lastMessageAt)}</span>
+              <span className="shrink-0 text-[11px] text-muted italic">{formatRelative(c.lastMessageAt)}</span>
             </div>
             <p className="truncate text-xs text-muted">{c.lastMessagePreview ?? c.contextServiceTitle ?? ''}</p>
           </div>
